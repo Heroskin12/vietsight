@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+	#main {
+	background: url('/static/images/halong3.jpg') no-repeat center center/cover;
+	height: 100vh;
+	overflow: hidden;
+	}
+
+	#main::before {
+	content:'';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: linear-gradient(to right, rgba(241, 39, 17, .2), rgba(245, 175, 25, .5));
+	z-index: 0;	
+}
+</style>
+
+<section>
+	<div class="container justify-content-center card" id="heroTextContainer">
+		<div class="row">
+			<div class="col card-image-overlay">
+				<h1 class="display-1 text-center text-light" id="welcomeText">Discover the <span class="text-danger">Local</span> Side of Vietnam</h1>
+				<p class="lead ps-2 text-light fs-4">Unearth the country's <span class="text-danger">best spots </span>that you've probably never heard of.</p>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

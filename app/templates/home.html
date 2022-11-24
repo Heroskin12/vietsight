@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
+    <title>Bootstrap Landing</title>
+</head>
+<body>
+    <main id="home-main">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+			<div class="container">
+				<!-- Logo -->
+				<a href="#" class="navbar-brand">
+					<img src="JFF.png" alt="" class="d-inline-block text-align-top me-2">
+					<span class="text-danger">Viet</span>Sight
+				</a>
+
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 d-flex align-items-center d-lg-none" >
+                    <li class="nav-item ms-5"><a href="#" class="nav-link">
+                        Jamie Furlong
+                        <img src="halong3.jpg" alt="" class="rounded rounded-5 ms-2">
+                    </a></li>
+                    
+                </ul>
+                    
+				<!-- Navbar Toggler -->
+				<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
+					<!-- Navigation Links -->
+					<ul class="navbar-nav mx-auto mb-2 mb-lg-0 d-flex align-items-lg-center">
+                        <li class="nav-item"><a href="" class="nav-link">Upload</a></li>
+						<li class="nav-item"><a href="" class="nav-link">Discover</a></li>
+						<li class="nav-item"><a href="" class="nav-link active bg-danger text-light rounded-1 ms-2" aria-current="page" id="bucketLink">Bucket List</a></li>
+                        <li class="nav-item d-lg-none"><a href="" class="nav-link">Settings</a></li>
+                        <li class="nav-item d-lg-none"><a href="" class="nav-link">Logout</a></li>
+					</ul>
+                </div>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-lg-flex align-items-center" id="profileImage">
+                        <li class="nav-item ms-5"><a href="#" class="nav-link">
+                            Jamie Furlong
+                            <img src="halong3.jpg" alt="" class="rounded rounded-5 ms-2">
+                        </a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-lg-flex" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="#">Profile</a></li>
+                              <li><a class="dropdown-item" href="#">Settings</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="#">Logout</a></li>
+                            </ul>
+                        </li>
+                        
+                    </ul>
+			</div>
+		</nav>
+
+        <!-- Home Section wrapping sidebar and posts. -->
+        <div class="d-flex mt-5 pt-5">
+
+            <!-- Sidebar-->
+            <section id="homeAside" class="shadow-sm position-fixed mt-2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl">
+                            <div class="d-flex flex-column">
+                                <div class="searchForm mb-4">
+                                    <form action="">
+                                        <input type="text" class="form-control" placeholder="Search for a person or place...">
+                                    </form>
+                                </div>
+                                <div class="friendsList px-2">
+                                    <h6 class="text-muted">People in your network...</h6><hr>
+                                    <ul class="px-0">
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="halong3.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">De Con</a></li>
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Jamie Furlong</a></li>
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Joe Bloggs</a></li>
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="halong3.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">David Malan</a></li>
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Xavier Napliona</a></li>
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Mohammed Al-Qurah</a></li>
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="halong3.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Fiona Kemp</a></li>
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Patricia Diaz</a></li>
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Marie Guermond</a></li>
+                                        <li><a href="" class="text-decoration-none text-muted"><img src="halong3.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Francis Wilson</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Content Cards -->
+            <section id="homeCards" class="mx-auto  ms-auto mt-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-7 mx-auto">
+                            <!-- Card 1 -->
+                            <div class="card mb-5 bg-light p-4 rounded rounded-2">
+                                <div class="card-body p-0 mb-3">
+                                    <div class="d-flex my-3">
+                                        <img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
+                                        <div class="d-flex flex-column">
+                                            <h5 class="card-title">De Con</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">12 mins ago...</h6>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">I found this lovely local restaurant in District 12... <a href="#" class="text-danger d-block">See more</a></p>
+                                </div>
+                                <img src="halong3.jpg" alt="" class="card-img-top">
+                                <div class="card-body bg-light">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item bg-light mb-3">
+                                            <form action="">
+                                                <input type="text" class="form-control" placeholder="Write a comment...">
+                                            </form>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <div class="d-flex">
+                                                <img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5">
+                                                <div class="d-flex flex-column ms-3">
+                                                    <h6 class="text-muted">Jamie Furlong</h4>
+                                                    <p>
+                                                        I came here many years ago with my mother. I have many fond memories. Thank you for... <a href="#" class="text-danger">See more</a>
+                                                    </p> 
+                                                </div>                                                
+                                            </div>
+                                        </li>
+                                        <li class="text-center text-danger list-group-item bg-light">View all Comments...</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="card mb-5 bg-light p-4 rounded rounded-2">
+                                <div class="card-body p-0 mb-3">
+                                    <div class="d-flex my-3">
+                                        <img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
+                                        <div class="d-flex flex-column">
+                                            <h5 class="card-title">De Con</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">12 mins ago...</h6>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">I found this lovely local restaurant in District 12... <a href="#" class="text-danger d-block">See more</a></p>
+                                </div>
+                                <img src="halong3.jpg" alt="" class="card-img-top">
+                                <div class="card-body bg-light">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item bg-light mb-3">
+                                            <form action="">
+                                                <input type="text" class="form-control" placeholder="Write a comment...">
+                                            </form>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <div class="d-flex">
+                                                <img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5">
+                                                <div class="d-flex flex-column ms-3">
+                                                    <h6 class="text-muted">Jamie Furlong</h4>
+                                                    <p>
+                                                        I came here many years ago with my mother. I have many fond memories. Thank you for... <a href="#" class="text-danger">See more</a>
+                                                    </p> 
+                                                </div>                                                
+                                            </div>
+                                        </li>
+                                        <li class="text-center text-danger list-group-item bg-light">View all Comments...</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="card mb-5 bg-light p-4 rounded rounded-2">
+                                <div class="card-body p-0 mb-3">
+                                    <div class="d-flex my-3">
+                                        <img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
+                                        <div class="d-flex flex-column">
+                                            <h5 class="card-title">De Con</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">12 mins ago...</h6>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">I found this lovely local restaurant in District 12... <a href="#" class="text-danger d-block">See more</a></p>
+                                </div>
+                                <img src="halong3.jpg" alt="" class="card-img-top">
+                                <div class="card-body bg-light">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item bg-light mb-3">
+                                            <form action="">
+                                                <input type="text" class="form-control" placeholder="Write a comment...">
+                                            </form>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <div class="d-flex">
+                                                <img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5">
+                                                <div class="d-flex flex-column ms-3">
+                                                    <h6 class="text-muted">Jamie Furlong</h4>
+                                                    <p>
+                                                        I came here many years ago with my mother. I have many fond memories. Thank you for... <a href="#" class="text-danger">See more</a>
+                                                    </p> 
+                                                </div>                                                
+                                            </div>
+                                        </li>
+                                        <li class="text-center text-danger list-group-item bg-light">View all Comments...</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
