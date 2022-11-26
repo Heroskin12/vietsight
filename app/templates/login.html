@@ -27,8 +27,16 @@
                         <!-- Login Form -->
                         <form action="/login" method="post" novalidate>
                             {{form.hidden_tag()}}
+
                             {{form.username(class_='form-control mb-1', placeholder="Enter your username...")}}
+                            {% for error in form.username.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                            
                             {{form.password(class_='form-control mb-3', placeholder="Enter your password...")}}
+                            {% for error in form.password.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
 
                             <div class="checkbox text-start ps-1 mb-3">
                                 {{form.remember_me(class_='form-check-input me-2')}}

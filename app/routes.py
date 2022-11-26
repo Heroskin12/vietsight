@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template
+from flask import flash, redirect, render_template, url_for
 from app import app
 from app.forms import LoginForm, RegisterForm
 
@@ -26,15 +26,20 @@ def login():
     if form.validate_on_submit():
         flash('Login requested for user {}, remember_me={}'.format(
             form.username.data, form.remember_me.data))
-        return redirect('/')
+        return redirect(url_for('landing'))
     return render_template('login.html', title='Log In', form=form)
 
 
 @app.route('/register', methods=["GET", "POST"] )
 def register():
     form = RegisterForm()
+    #Post Method
+    if form.validate_on_submit():
+        flash('Account requested for user {}'.format(
+            form.username.data, form.remember_me.data))
+        return redirect(url_for('landing'))
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/mission')
 def mission():
-    return 'Mission Page'
+    return render_template('mission.html', title="Our Mission")

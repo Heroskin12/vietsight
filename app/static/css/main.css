@@ -104,6 +104,13 @@ li img, .card-added-images {
 		padding-left: 0 !important;
 	}
 
+	#regButton {
+		background: none !important;
+		padding-left: 0 !important;
+		margin-left: 0 !important;
+		color: rgb(77, 77, 78) !important;
+	}
+
 	
 }
 

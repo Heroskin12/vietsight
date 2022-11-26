@@ -18,14 +18,31 @@
                     <!-- Login Form -->
                     <form action="/register" method="post" novalidate>
                         {{form.hidden_tag()}}
+                        
                         <div class="d-flex mb-1">
                             {{form.first_name(class_='form-control me-1', placeholder='Enter your first name...')}}
                             {{form.last_name(class_='form-control', placeholder='Enter your last name...')}}
                         </div>
+
                         {{form.username(class_='form-control mb-1', placeholder="Enter your username...")}}
+                        {% for error in form.username.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+
                         {{form.email(class_='form-control mb-1', placeholder="Enter your email...")}}
+                        {% for error in form.username.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+
                         {{form.password(class_='form-control mb-1', placeholder="Enter your password...")}}
+                        {% for error in form.username.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+
                         {{form.confirm_password(class_='form-control mb-3', placeholder="Confirm your password...")}}
+                        {% for error in form.username.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                         
                         {{form.submit(class_='btn btn-warning text-light w-100')}}
                     </form>
