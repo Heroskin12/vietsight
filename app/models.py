@@ -1,9 +1,11 @@
-from app import db
+from app import db, login
 from datetime import datetime
+from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
 
-class User(db.Model):
-    user_id = db.Column(db.Integer, primary_key=True)
+
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String)
     lastName = db.Column(db.String)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -12,7 +14,7 @@ class User(db.Model):
 
     # Creates the one-to-many relationship. 'Posts' is the class of the model where the field is to be added. 'author' is a field added to the 'many' side which points back at the user.
     # E.g. post.author.firstName would return the firstName from the User model.
-    posts = db.relationship('Posts', backref='author', lazy='dynamic')
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {} {}>'.format(self.firstName, self.lastName)
@@ -25,8 +27,16 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-class Posts(db.Model):
+class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    post_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<Post {}>'.format(self.body)
+
+@login.user_loader
+def load_user(id):
+    # Get id returns a string so int is called so it can be compared with the user_id.
+    return User.query.get(int(id))

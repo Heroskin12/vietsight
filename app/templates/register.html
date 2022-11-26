@@ -16,8 +16,8 @@
                     <p class="lead">Sign up now to create the ultimate Vietnam bucket list.</p>
 
                     <!-- Login Form -->
-                    <form action="/register" method="post" novalidate>
-                        {{form.hidden_tag()}}
+                    <form action="" method="post">
+                        {{ form.hidden_tag() }}
                         
                         <div class="d-flex mb-1">
                             {{form.first_name(class_='form-control me-1', placeholder='Enter your first name...')}}
@@ -30,17 +30,17 @@
                         {% endfor %}
 
                         {{form.email(class_='form-control mb-1', placeholder="Enter your email...")}}
-                        {% for error in form.username.errors %}
+                        {% for error in form.email.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                         {% endfor %}
 
                         {{form.password(class_='form-control mb-1', placeholder="Enter your password...")}}
-                        {% for error in form.username.errors %}
+                        {% for error in form.password.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                         {% endfor %}
 
                         {{form.confirm_password(class_='form-control mb-3', placeholder="Confirm your password...")}}
-                        {% for error in form.username.errors %}
+                        {% for error in form.password.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                         {% endfor %}
                         
