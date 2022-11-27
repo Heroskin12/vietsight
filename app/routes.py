@@ -1,9 +1,17 @@
+from datetime import datetime
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
 from app.forms import LoginForm, RegisterForm
 from app.models import User, Post
 from werkzeug.urls import url_parse
+
+# Update the 'last seen' time for user each time they make a request.
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.lastSeen = datetime.utcnow()
+        db.session.commit()
 
 @app.route('/')
 @app.route('/landing')
@@ -99,6 +107,7 @@ def home():
 @login_required
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
+    print(user.lastSeen)
     posts = [
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
@@ -110,3 +119,8 @@ def profile(username):
 @login_required
 def upload():
     return render_template('upload.html', title='Upload a Post')
+
+@app.route('/settings', methods=["GET", "POST"])
+@login_required
+def settings():
+    return render_template('settings.html', title="Change Settings")

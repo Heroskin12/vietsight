@@ -13,7 +13,8 @@
                         <img src="{{ user.avatar(128) }}" alt="" class="img-fluid profileImage me-3">
                         <div class="pb-3">
                             <h3>Jamie Furlong</h4>
-                            <h6 class="text-muted">Teacher in HCM. Exploring coffee shops and delicious VN food on the weekends.</h6>
+                                {% if user.caption %}<h6 class="text-muted">{{ user.caption }}</h6>{% endif %}
+                                {% if user.lastSeen %}<p>Last seen on: {{ user.lastSeen }}</p>{% endif %}
                         </div>
                     </div>
                     <div class="col-lg-4 d-flex align-items-end justify-content-end pb-3">

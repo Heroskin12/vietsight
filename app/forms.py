@@ -1,7 +1,7 @@
 from app.models import User
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, PasswordField, StringField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
+from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -32,10 +32,14 @@ class RegisterForm(FlaskForm):
 
 class UploadForm(FlaskForm):
     # Upload File - File Upload
-    # Post Description - TextArea
+    description = TextAreaField('Describe the Post', validators=[DataRequired(), Length(min=1, max=500)])
     location = StringField('Where was this taken?', validators=[DataRequired()])
     # When did you go? - Date Field
-    # How do you get there? - TextArea
+    directions = TextAreaField('How do you get there', validators=[DataRequired(), Length(min=1, max=500)])
     # What type of place is this? - Select Menu
     allow_comments = BooleanField('Allow Comments?')
     submit = SubmitField('Upload')
+
+class CaptionForm(FlaskForm):
+    new_caption = TextAreaField('Caption', validators=[Length(min=0, max=256)])
+    submit = SubmitField('Confirm Change')

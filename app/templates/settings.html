@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+    <section id="tabbedSettings mt-5">
+       <div class="container pt-5">
+        <nav>
+            <div class="nav nav-tabs mt-5 pt-5" id="nav-tab" role="tablist">
+              <button class="nav-link active text-dark" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Profile Photo</button>
+              <button class="nav-link text-dark" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Cover Photo</button>
+              <button class="nav-link text-dark" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Profile Caption</button>
+              <button class="nav-link text-dark" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" >Password</button>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active mt-5" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                <div class="container-lg">
+                    <h2 class="mb-4">Update your Profile Photo</h2>
+                    <form action="">
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Choose an image to upload.</label>
+                            <input class="form-control w-50" type="file" id="formFile">
+                        </div>
+    
+                        <button type="Submit" class="btn btn-danger text-light mt-2 mb-4">Upload</button>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade mt-5" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                <div class="container-lg">
+                    <h2 class="mb-4">Update your Cover Photo</h2>
+                    <form action="">
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Choose an image to upload.</label>
+                            <input class="form-control w-50" type="file" id="formFile">
+                        </div>
+    
+                        <button type="Submit" class="btn btn-danger text-light mt-2 mb-4">Upload</button>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade mt-5" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+                <div class="container-lg">
+                    <h2 class="mb-4">Update your Caption</h2>
+                    <form action="">
+                        <div class="mb-3">
+                            <label for="newCaption" class="form-label">Write your caption.</label>
+                            <textarea class="form-control w-50" id="newCaption" rows="3"></textarea>
+                            <div id="whereHelpBlock" class="form-text">
+                                Your caption has a max limit of 130 characters.
+                            </div>
+                        </div>
+    
+                        <button type="Submit" class="btn btn-danger text-light mt-2 mb-4">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade mt-5" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
+                <div class="container-lg">
+                    <h2 class="mb-4">Reset your password.</h2>
+                    <form action="">
+                        <div class="mb-3">
+                            <label for="oldPassword" class="form-label">Write your old password.</label>
+                            <input type="password" class="form-control" id="oldPassword">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Write your new password.</label>
+                            <input type="password" class="form-control" id="newPassword">
+                            <div id="whereHelpBlock" class="form-text">
+                                Your password should contain a minimum of 8 characters, and at least one uppercase, lowercase, numeric and special character.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm your new password.</label>
+                            <input type="password" class="form-control" id="confirmPassword">
+                        </div>
+    
+                        <button type="Submit" class="btn btn-danger text-light mt-2 mb-4">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+       </div>
+    </section>
+{% endblock %}

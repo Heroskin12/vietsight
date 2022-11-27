@@ -12,6 +12,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    caption = db.Column(db.String(256))
+    lastSeen = db.Column(db.DateTime, default = datetime.utcnow)
 
     # Creates the one-to-many relationship. 'Posts' is the class of the model where the field is to be added. 'author' is a field added to the 'many' side which points back at the user.
     # E.g. post.author.firstName would return the firstName from the User model.
