@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+
+        <section id="profileHead" class="mt-5 pb-5">
+            <div class="container-lg">
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <div class="coverImage"></div>
+                    </div>
+                </div>
+                <div class="row negativeRow shadow-sm pb-3">
+                    <div class="col-lg-6 d-flex align-items-end justify-content-center ps-5">
+                        <img src="{{ user.avatar(128) }}" alt="" class="img-fluid profileImage me-3">
+                        <div class="pb-3">
+                            <h3>Jamie Furlong</h4>
+                            <h6 class="text-muted">Teacher in HCM. Exploring coffee shops and delicious VN food on the weekends.</h6>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 d-flex align-items-end justify-content-end pb-3">
+                        <button class="btn btn-danger me-3">
+                            <a href="" class="text-light text-decoration-none">Bucket</a>
+                        </button>
+                        <button class="btn btn-danger">
+                            <a href="" class="text-light text-decoration-none">Follow</a>
+                        </button>
+                        <button class="btn btn-danger ms-3">
+                            <a href="" class="text-light text-decoration-none">Settings</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+              <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Your Posts</h1>
+                <p class="lead text-muted">Browse through your posts and remind yourself of the places you have been.</p>
+                <p>
+                  <a href="#" class="btn btn-danger my-2">Bucket</a>
+                  <a href="#" class="btn btn-secondary my-2">Message</a>
+                </p>
+              </div>
+            </div>
+          </section>
+        
+          <div class="album py-5 bg-light">
+            <div class="container">
+        
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="hillsvn.jpg" alt="" class="card-image-top cardFeature">
+            
+                        <div class="card-body">
+                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
+                        <p class="card-text">9 minutes ago.</p>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="mountain.jpg" alt="" class="card-image-top cardFeature">
+            
+                        <div class="card-body">
+                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
+                        <p class="card-text">9 minutes ago.</p>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="jamie.jpg" alt="" class="card-image-top cardFeature">
+            
+                        <div class="card-body">
+                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
+                        <p class="card-text">9 minutes ago.</p>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="halong3.jpg" alt="" class="card-image-top cardFeature">
+            
+                        <div class="card-body">
+                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
+                        <p class="card-text">9 minutes ago.</p>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="mountain.jpg" alt="" class="card-image-top cardFeature">
+            
+                        <div class="card-body">
+                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
+                        <p class="card-text">9 minutes ago.</p>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="hillsvn.jpg" alt="" class="card-image-top">
+            
+                        <div class="card-body">
+                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
+                        <p class="card-text">9 minutes ago.</p>
+                        </div>                        
+                    </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+{% endblock %}
+        

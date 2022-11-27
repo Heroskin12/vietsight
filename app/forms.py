@@ -29,3 +29,13 @@ class RegisterForm(FlaskForm):
         user = User.query.filter_by(email = email.data).first()
         if user is not None:
             raise ValidationError('Email already in use by another account. Please choose another.')
+
+class UploadForm(FlaskForm):
+    # Upload File - File Upload
+    # Post Description - TextArea
+    location = StringField('Where was this taken?', validators=[DataRequired()])
+    # When did you go? - Date Field
+    # How do you get there? - TextArea
+    # What type of place is this? - Select Menu
+    allow_comments = BooleanField('Allow Comments?')
+    submit = SubmitField('Upload')
