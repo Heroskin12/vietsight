@@ -11,3 +11,7 @@ class Config(object):
 
     # No signal sent to app if DB is changed.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    UPLOAD_PATH = os.environ.get('UPLOAD_PATH')
+    MAX_CONTENT_LENGTH = 1024 * 1024
+    UPLOAD_EXTENSIONS = ['.jpg', '.png', '.gif']

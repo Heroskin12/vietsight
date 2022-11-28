@@ -1,6 +1,7 @@
 from app.models import User
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
+from flask_wtf.file import FileField, FileRequired
+from wtforms import BooleanField, DateField, PasswordField, SelectField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
 class LoginForm(FlaskForm):
@@ -31,13 +32,11 @@ class RegisterForm(FlaskForm):
             raise ValidationError('Email already in use by another account. Please choose another.')
 
 class UploadForm(FlaskForm):
-    # Upload File - File Upload
+    image = FileField('Upload an Image', validators=[FileRequired()])
     description = TextAreaField('Describe the Post', validators=[DataRequired(), Length(min=1, max=500)])
-    location = StringField('Where was this taken?', validators=[DataRequired()])
-    # When did you go? - Date Field
-    directions = TextAreaField('How do you get there', validators=[DataRequired(), Length(min=1, max=500)])
-    # What type of place is this? - Select Menu
-    allow_comments = BooleanField('Allow Comments?')
+    location = StringField('Where is this place?', validators=[DataRequired()])
+    directions = TextAreaField('How do you get to this place?', validators=[DataRequired(), Length(min=1, max=500)])
+    comments = BooleanField('Allow Comments')
     submit = SubmitField('Upload')
 
 class CaptionForm(FlaskForm):

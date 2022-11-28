@@ -1,10 +1,13 @@
 from datetime import datetime
-from flask import flash, redirect, render_template, request, url_for
+from flask import abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
+import imghdr
+import os
 from app import app, db
-from app.forms import LoginForm, RegisterForm
+from app.forms import LoginForm, RegisterForm, UploadForm
 from app.models import User, Post
 from werkzeug.urls import url_parse
+from werkzeug.utils import secure_filename
 
 # Update the 'last seen' time for user each time they make a request.
 @app.before_request
@@ -12,7 +15,17 @@ def before_request():
     if current_user.is_authenticated:
         current_user.lastSeen = datetime.utcnow()
         db.session.commit()
+    
+# A function to validate the file type of an image.
+def validate_image(stream):
+    header = stream.read(512) # Read 512 bytes of the file. This is enough to validate format.
+    stream.seek(0) # Reset stream pointer so save function can see all bytes.
+    format = imghdr.what(None, header) # Reads img in memory. Returns detected image format or None if format unknown.
+    if not format:
+        return None
+    return '.' + (format if format != 'jpeg' else 'jpg') # Accounts for jpeg exception where jpg extension used.
 
+# Routes
 @app.route('/')
 @app.route('/landing')
 def landing():
@@ -115,12 +128,44 @@ def profile(username):
 
     return render_template('profile.html', user=user, posts=posts, title="Profile")
 
-@app.route('/upload')
+@app.route('/upload', methods=["GET", "POST"])
 @login_required
 def upload():
-    return render_template('upload.html', title='Upload a Post')
+    form = UploadForm()    
+    if form.validate_on_submit():
+        print('Hello!')
+        print(form.image.data, form.description.data, form.location.data, form.directions.data, form.comments.data)
+        uploaded_file = request.files['image']
+        filename = secure_filename(uploaded_file.filename)
+        print("Hello" + filename)
+
+        if filename != '':
+            file_ext = os.path.splitext(filename)[1]
+            print("Goodbye" + file_ext)
+            if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
+                file_ext != validate_image(uploaded_file.stream):
+                flash("Image type not valid. Must be jpg, gif or png. Please try again.")
+                return redirect(url_for('upload'))
+            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+
+            post = Post( \
+                image = filename,
+                body = form.description.data,
+                location = form.location.data,
+                directions = form.directions.data,
+                comments = form.comments.data
+                )
+            db.session.add(post)
+            db.session.commit()
+            return redirect(url_for('profile', username=current_user.username))
+        
+        return redirect(url_for('login'))
+
+    print('This is a get request')
+    return render_template('upload.html', title='Upload a Post', form=form)
 
 @app.route('/settings', methods=["GET", "POST"])
 @login_required
 def settings():
+    
     return render_template('settings.html', title="Change Settings")

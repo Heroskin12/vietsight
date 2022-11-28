@@ -12,67 +12,49 @@
 
                     </div>
 
-                    <!-- Login Form -->
-                    <form action="">
+                    <!-- Upload Form -->
+                    <form action="", method="post", enctype="multipart/form-data" novalidate>
+                        {{form.hidden_tag()}}
+                        
                         <div class="mb-3">
-                            <label for="formFile" class="form-label text-left">Choose an image to upload.</label>
-                            <input class="form-control" type="file" id="formFile">
+                            {{form.image.label(class_='form-label')}} <br>
+                            {{form.image(class_='form-control')}}
                         </div>
 
                         <div class="mb-3">
-                        <label for="FormControlTextarea" class="form-label">Write a description for your post.</label>
-                        <textarea class="form-control" id="FormControlTextarea" rows="3"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="FormControlInput" class="form-label">Where was this taken?</label>
-                            <input type="text" class="form-control" id="FormControlInput">
+                            {{form.description.label(class_='form-label')}} <br>
+                            {{form.description(class_='form-control', id='FormControlTextArea', rows='3')}}
                             <div id="whereHelpBlock" class="form-text">
-                                You should put a short description of the location. E.g. Green Coffee, Tan Binh, Ho Chi Minh.
-                              </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="start" class="d-block">When did you go there?</label>
-                            <input type="date" id="start" name="trip-start" class="mt-2 p-2 border border-muted">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="FormControlTextarea" class="form-label">How do you get there?</label>
-                            <textarea class="form-control" id="FormControlTextarea" rows="3"></textarea>
-                            <div id="whereHelpBlock" class="form-text">
-                                Help other users find the place in your photo. Include any information you have such as street names or notable places in the area that can help them identify where it is, etc...
+                                This will appear underneath your image. Describe the place, what you did there, when you visited it or any other information people might find useful.
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="typeSelect" class="form-label">What type of place is this?</label>
-                            <select class="form-select" aria-label="What type of place is this?" id="typeSelect">
-                                <option selected disabled>Choose the category that fits.</option>
-                                <option value="1">Restaurant</option>
-                                <option value="2">Coffee Shop</option>
-                                <option value="3">Shopping</option>
-                                <option value="4">Museum</option>
-                                <option value="5">Park</option>
-                                <option value="6">Nature</option>
-                                <option value="7">Landscape</option>
-                                <option value="8">Photo Spot</option>
-                                <option value="9">Architecture</option>
-                                <option value="10">Other</option>
-                              </select>
+                            {{form.location.label(class_='form-label')}} <br>
+                            {{form.location(class_='form-control')}}
+                            <div id="whereHelpBlock" class="form-text">
+                                Give as specific an address as possible. If you're not sure, type in the town or city.
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="FieldsetCheck">
-                              <label class="form-check-label" for="FieldsetCheck">
-                                Allow comments?
-                              </label>
+                            {{form.directions.label(class_='form-label')}} <br>
+                            {{form.directions(class_='form-control', id='FormControlTextArea', rows='3')}}
+                            <div id="whereHelpBlock" class="form-text">
+                                Provide any information that will help others find this place. For example, how does the building look or are there any notable features nearby.
                             </div>
-                          </div>
+                        </div>
 
-                        <button type="Submit" class="btn btn-danger text-light w-100 mt-2 mb-4">Upload</button>
+                        <div class="mb-3">
+                            {{form.comments(class_='form-check-input')}}
+                            {{form.comments.label(class_='form-check-label')}} 
+                        </div>
+
+                        
+
+                        {{form.submit(class_='btn btn-danger text-light w-100 mt-2 mb-4')}}
                     </form>
+                   
                 </div>
             </div>
         </div>
