@@ -1,16 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+    #profilePicDisplay {
+        background: url('/static/images/profile/{{current_user.profile_pic}}') no-repeat center center/cover;
+        height: 200px;
+        width: 200px;
+    }
 
+    #coverPicDisplay {
+        background: url('/static/images/cover/{{current_user.cover_pic}}') no-repeat center center/cover;
+        height: 500px;
+        width: 100%;
+    }
+
+    #coverDefaultDisplay {
+	background: url('/static/images/mountain.jpg') no-repeat center center/cover;
+	height: 500px;
+	width: 100%;
+}
+</style>
         <section id="profileHead" class="mt-5 pb-5">
             <div class="container-lg">
                 <div class="row">
                     <div class="col d-flex justify-content-center">
-                        <div class="coverImage"></div>
+                        {% if current_user.cover_pic %}
+                        <div id="coverPicDisplay"></div>
+                        {% else %}
+                        <div id="coverDefaultDisplay"></div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row negativeRow shadow-sm pb-3">
                     <div class="col-lg-6 d-flex align-items-end justify-content-center ps-5">
-                        <img src="{{ user.avatar(128) }}" alt="" class="img-fluid profileImage me-3">
+                        {% if current_user.profile_pic %}
+                        <div id="profilePicDisplay" class="rounded rounded-5 ms-2 me-4"></div>
+                        {% else %}
+                        <img src="{{ current_user.avatar(128) }}" alt="" class="rounded rounded-5 ms-2">
+                        {% endif %}
                         <div class="pb-3">
                             <h3>Jamie Furlong</h4>
                                 {% if user.caption %}<h6 class="text-muted">{{ user.caption }}</h6>{% endif %}

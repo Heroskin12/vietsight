@@ -4,7 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 import imghdr
 import os
 from app import app, db
-from app.forms import LoginForm, RegisterForm, UploadForm
+from app.forms import LoginForm, RegisterForm, UploadForm, CaptionForm, ProfileForm, CoverForm, PasswordForm
 from app.models import User, Post
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
@@ -168,4 +168,49 @@ def upload():
 @login_required
 def settings():
     
-    return render_template('settings.html', title="Change Settings")
+    form = CaptionForm()
+    profileForm = ProfileForm()
+    coverForm = CoverForm()
+    passwordForm = PasswordForm()
+
+    if form.validate_on_submit():
+        print('validated')
+        newCaption = form.new_caption.data
+        current_user.caption = newCaption
+        db.session.commit()
+        return redirect(url_for('profile', username=current_user.username))
+
+    if profileForm.validate_on_submit():
+        uploaded_file = request.files['new_profile']
+        filename = secure_filename(uploaded_file.filename)
+
+        if filename != '':
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
+                file_ext != validate_image(uploaded_file.stream):
+                flash("Image type not valid. Must be jpg, gif or png. Please try again.")
+                return redirect(url_for('settings'))
+            uploaded_file.save(os.path.join(app.config['PROFILE_PATH'], filename))
+
+            current_user.profile_pic = filename
+            db.session.commit()
+            return redirect(url_for('profile', username = current_user.username))
+
+    if coverForm.validate_on_submit():
+        uploaded_file = request.files['new_cover']
+        filename = secure_filename(uploaded_file.filename)
+
+        if filename != '':
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
+                file_ext != validate_image(uploaded_file.stream):
+                flash("Image type not valid. Must be jpg, gif or png. Please try again.")
+                return redirect(url_for('settings'))
+            uploaded_file.save(os.path.join(app.config['COVER_PATH'], filename))
+
+            current_user.cover_pic = filename
+            db.session.commit()
+            return redirect(url_for('profile', username = current_user.username))
+
+
+    return render_template('settings.html', title="Change Settings", form=form, profileForm=profileForm, coverForm=coverForm)

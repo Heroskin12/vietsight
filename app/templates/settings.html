@@ -14,42 +14,45 @@
             <div class="tab-pane fade show active mt-5" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
                 <div class="container-lg">
                     <h2 class="mb-4">Update your Profile Photo</h2>
-                    <form action="">
+                    <form action="/settings", method="post" enctype="multipart/form-data">
+                        {{profileForm.hidden_tag()}}
                         <div class="mb-3">
-                            <label for="formFile" class="form-label">Choose an image to upload.</label>
-                            <input class="form-control w-50" type="file" id="formFile">
+                            {{profileForm.new_profile.label(class_='form-label')}} <br>
+                            {{profileForm.new_profile(class_='form-control w-50')}}
                         </div>
     
-                        <button type="Submit" class="btn btn-danger text-light mt-2 mb-4">Upload</button>
+                        {{profileForm.submit(class_='btn btn-danger text light mt-2 mb-4')}}
                     </form>
                 </div>
             </div>
             <div class="tab-pane fade mt-5" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
                 <div class="container-lg">
                     <h2 class="mb-4">Update your Cover Photo</h2>
-                    <form action="">
+                    <form action="/settings" method="post" enctype="multipart/form-data">
+                        {{coverForm.hidden_tag()}}
                         <div class="mb-3">
-                            <label for="formFile" class="form-label">Choose an image to upload.</label>
-                            <input class="form-control w-50" type="file" id="formFile">
+                            {{coverForm.new_cover.label(class_='form-label')}}
+                            {{coverForm.new_cover(class_='form-control w-50')}}
                         </div>
-    
-                        <button type="Submit" class="btn btn-danger text-light mt-2 mb-4">Upload</button>
+                        
+                        {{coverForm.submit(class_='btn btn-danger text-light mt-2 mb-4')}}
                     </form>
                 </div>
             </div>
             <div class="tab-pane fade mt-5" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
                 <div class="container-lg">
                     <h2 class="mb-4">Update your Caption</h2>
-                    <form action="">
+                    <form action="/settings", method="post" no validate>
+                        {{form.hidden_tag()}}
                         <div class="mb-3">
-                            <label for="newCaption" class="form-label">Write your caption.</label>
-                            <textarea class="form-control w-50" id="newCaption" rows="3"></textarea>
+                            {{form.new_caption.label(class_='form-label')}}<br>
+                            {{form.new_caption(class_='form-control w-50', rows='3')}}
                             <div id="whereHelpBlock" class="form-text">
                                 Your caption has a max limit of 130 characters.
                             </div>
                         </div>
     
-                        <button type="Submit" class="btn btn-danger text-light mt-2 mb-4">Submit</button>
+                        {{form.submit(class_='btn btn-danger text-light mt-2 mb-4')}}
                     </form>
                 </div>
             </div>

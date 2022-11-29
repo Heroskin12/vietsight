@@ -40,5 +40,18 @@ class UploadForm(FlaskForm):
     submit = SubmitField('Upload')
 
 class CaptionForm(FlaskForm):
-    new_caption = TextAreaField('Caption', validators=[Length(min=0, max=256)])
+    new_caption = TextAreaField('Caption', validators=[DataRequired()])
     submit = SubmitField('Confirm Change')
+
+class ProfileForm(FlaskForm):
+    new_profile = FileField('Upload a new profile picture', validators=[FileRequired()])
+    submit = SubmitField('Change Profile Picture')
+
+class CoverForm(FlaskForm):
+    new_cover = FileField('Upload a new cover photo', validators=[FileRequired()])
+    submit = SubmitField('Change Cover Photo')
+
+class PasswordForm(FlaskForm):
+    oldPassword = PasswordField('Enter current password', validators=[FileRequired()])
+    newPassword = PasswordField('Enter new password', validators=[FileRequired()])
+    confirmPassword = PasswordField('Confirm new password', validators=[FileRequired()])

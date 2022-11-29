@@ -63,12 +63,6 @@ li img, .card-added-images {
 	margin-top: -50px;
 }
 
-.coverImage {
-	background: url(mountain.jpg) no-repeat center center/cover;
-	height: 400px;
-	width: 100%;
-}
-
 #v-pills-tab button {
 	background: none;
 	color: black;
