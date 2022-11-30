@@ -41,17 +41,31 @@
                             <h3>Jamie Furlong</h4>
                                 {% if user.caption %}<h6 class="text-muted">{{ user.caption }}</h6>{% endif %}
                                 {% if user.lastSeen %}<p>Last seen on: {{ user.lastSeen }}</p>{% endif %}
+                                <p>{{ user.followers.count() }} followers, {{ user.followed.count() }} following.</p>
+                                {% if user == current_user %}<p><a href="{{url_for('settings')}}">Edit your profile</a></p>
+                                {% elif not current_user.is_following(user) %}
+                                <p>
+                                    <form action="{{url_for('follow', username=user.username) }}" method="post">
+                                        {{form.hidden_tag()}}
+                                        {{form.submit(value='Follow', class_='btn btn-danger text-light')}}
+                                    </form>
+                                </p>
+                                {% else %}
+                                <p>
+                                    <form action="{{url_for('unfollow', username=user.username) }}" method="post">
+                                        {{form.hidden_tag()}}
+                                        {{form.submit(value='Unfollow', class_='btn btn-danger text-light')}}
+                                    </form>
+                                </p>
+                                {%endif%}
                         </div>
                     </div>
                     <div class="col-lg-4 d-flex align-items-end justify-content-end pb-3">
                         <button class="btn btn-danger me-3">
-                            <a href="" class="text-light text-decoration-none">Bucket</a>
-                        </button>
-                        <button class="btn btn-danger">
-                            <a href="" class="text-light text-decoration-none">Follow</a>
+                            <a href="{{url_for('home')}}" class="text-light text-decoration-none">Bucket</a>
                         </button>
                         <button class="btn btn-danger ms-3">
-                            <a href="" class="text-light text-decoration-none">Settings</a>
+                            <a href="{{url_for('settings')}}" class="text-light text-decoration-none">Settings</a>
                         </button>
                     </div>
                 </div>

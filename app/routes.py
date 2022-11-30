@@ -5,7 +5,7 @@ import imghdr
 import os
 from app import app, db
 from app.email import send_password_reset_email
-from app.forms import LoginForm, RegisterForm, UploadForm, CaptionForm, ProfileForm, CoverForm, PasswordForm, ResetPasswordRequestForm, ResetPasswordForm
+from app.forms import LoginForm, RegisterForm, UploadForm, CaptionForm, ProfileForm, CoverForm, PasswordForm, ResetPasswordRequestForm, ResetPasswordForm, EmptyForm
 from app.models import User, Post
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
@@ -150,13 +150,13 @@ def home():
 @login_required
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
-    print(user.lastSeen)
+    form = EmptyForm()
     posts = [
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
     ]
 
-    return render_template('profile.html', user=user, posts=posts, title="Profile")
+    return render_template('profile.html', user=user, posts=posts, title="Profile", form=form)
 
 @app.route('/upload', methods=["GET", "POST"])
 @login_required
@@ -244,3 +244,55 @@ def settings():
 
 
     return render_template('settings.html', title="Change Settings", form=form, profileForm=profileForm, coverForm=coverForm)
+
+@app.route('/follow/<username>', methods=["POST"])
+@login_required
+def follow(username):
+    form = EmptyForm()
+    if form.validate_on_submit():
+        # Get an object of the user you want to follow.
+        user = User.query.filter_by(username=username).first()
+
+        # Check that the user exists.
+        if user is None:
+            flash('User {} not found.'.format(username))
+            return redirect(url_for('home'))
+
+        # Check that the user is not trying to follow themselves.
+        if user == current_user:
+            flash('You cannot follow yourself!')
+            return redirect(url_for('profile', username=username))
+
+        # Call the follow function.
+        current_user.follow(user)
+        db.session.commit()
+        flash('You are following {}'.format(username))
+        return redirect(url_for('user', username=username))
+    else:
+        return redirect(url_for('home'))
+
+@app.route('/unfollow/<username>', methods=["POST"])
+@login_required
+def unfollow(username):
+    form = EmptyForm()
+    if form.validate_on_submit():
+        # Get an object of the user you want to follow.
+        user = User.query.filter_by(username=username).first()
+
+        # Check that the user exists.
+        if user is None:
+            flash('User {} not found.'.format(username))
+            return redirect(url_for('home'))
+
+        # Check that the user is not trying to follow themselves.
+        if user == current_user:
+            flash('You cannot unfollow yourself!')
+            return redirect(url_for('profile', username=username))
+
+        # Call the follow function.
+        current_user.unfollow(user)
+        db.session.commit()
+        flash('You have unfollowed {}'.format(username))
+        return redirect(url_for('profile', username=username))
+    else:
+        return redirect(url_for('home'))
