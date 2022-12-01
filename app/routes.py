@@ -144,17 +144,25 @@ def reset_password(token):
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html', title='Home')
+    # Followed_Posts is a function hence why we call it.
+    posts = current_user.followed_posts().all()
+    return render_template('home.html', title='Home', posts=posts)
+
+@app.route('/explore')
+@login_required
+def explore():
+    # Get all posts to display on the explore page to hepl users find other people.
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('home.html', title='Explore', posts=posts)
 
 @app.route('/profile/<username>')
 @login_required
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
     form = EmptyForm()
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
+    posts = user.posts
+    print(posts)
+        
 
     return render_template('profile.html', user=user, posts=posts, title="Profile", form=form)
 
@@ -183,10 +191,12 @@ def upload():
                 body = form.description.data,
                 location = form.location.data,
                 directions = form.directions.data,
-                comments = form.comments.data
+                comments = form.comments.data,
+                author = current_user
                 )
             db.session.add(post)
             db.session.commit()
+            flash("Your post is now live!")
             return redirect(url_for('profile', username=current_user.username))
         
         return redirect(url_for('login'))

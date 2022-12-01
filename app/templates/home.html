@@ -41,18 +41,20 @@
                     <div class="row">
                         <div class="col-xl-7 mx-auto">
                             <!-- Card 1 -->
+                            {% for post in posts %}
                             <div class="card mb-5 bg-light p-4 rounded rounded-2">
                                 <div class="card-body p-0 mb-3">
                                     <div class="d-flex my-3">
-                                        <img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
+                                        <img src="/static/images/profile/{{post.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5 me-2">
                                         <div class="d-flex flex-column">
-                                            <h5 class="card-title">De Con</h5>
-                                            <h6 class="card-subtitle mb-2 text-muted">12 mins ago...</h6>
+                                            <h5 class="card-title">{{post.author.firstName}} {{post.author.lastName}}</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
                                         </div>
                                     </div>
-                                    <p class="card-text">I found this lovely local restaurant in District 12... <a href="#" class="text-danger d-block">See more</a></p>
+                                    <p class="card-text">{{post.body}} <a href="#" class="text-danger d-block">See more</a></p>
                                 </div>
-                                <img src="halong3.jpg" alt="" class="card-img-top">
+                                <img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top">
+                                {% if posts.comments %}
                                 <div class="card-body bg-light">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item bg-light mb-3">
@@ -74,83 +76,10 @@
                                         <li class="text-center text-danger list-group-item bg-light">View all Comments...</li>
                                     </ul>
                                 </div>
+                                {% endif %}
                             </div>
-
-                            <!-- Card 2 -->
-                            <div class="card mb-5 bg-light p-4 rounded rounded-2">
-                                <div class="card-body p-0 mb-3">
-                                    <div class="d-flex my-3">
-                                        <img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
-                                        <div class="d-flex flex-column">
-                                            <h5 class="card-title">De Con</h5>
-                                            <h6 class="card-subtitle mb-2 text-muted">12 mins ago...</h6>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">I found this lovely local restaurant in District 12... <a href="#" class="text-danger d-block">See more</a></p>
-                                </div>
-                                <img src="halong3.jpg" alt="" class="card-img-top">
-                                <div class="card-body bg-light">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item bg-light mb-3">
-                                            <form action="">
-                                                <input type="text" class="form-control" placeholder="Write a comment...">
-                                            </form>
-                                        </li>
-                                        <li class="list-group-item bg-light">
-                                            <div class="d-flex">
-                                                <img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5">
-                                                <div class="d-flex flex-column ms-3">
-                                                    <h6 class="text-muted">Jamie Furlong</h4>
-                                                    <p>
-                                                        I came here many years ago with my mother. I have many fond memories. Thank you for... <a href="#" class="text-danger">See more</a>
-                                                    </p> 
-                                                </div>                                                
-                                            </div>
-                                        </li>
-                                        <li class="text-center text-danger list-group-item bg-light">View all Comments...</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Card 3 -->
-                            <div class="card mb-5 bg-light p-4 rounded rounded-2">
-                                <div class="card-body p-0 mb-3">
-                                    <div class="d-flex my-3">
-                                        <img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
-                                        <div class="d-flex flex-column">
-                                            <h5 class="card-title">De Con</h5>
-                                            <h6 class="card-subtitle mb-2 text-muted">12 mins ago...</h6>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">I found this lovely local restaurant in District 12... <a href="#" class="text-danger d-block">See more</a></p>
-                                </div>
-                                <img src="halong3.jpg" alt="" class="card-img-top">
-                                <div class="card-body bg-light">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item bg-light mb-3">
-                                            <form action="">
-                                                <input type="text" class="form-control" placeholder="Write a comment...">
-                                            </form>
-                                        </li>
-                                        <li class="list-group-item bg-light">
-                                            <div class="d-flex">
-                                                <img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5">
-                                                <div class="d-flex flex-column ms-3">
-                                                    <h6 class="text-muted">Jamie Furlong</h4>
-                                                    <p>
-                                                        I came here many years ago with my mother. I have many fond memories. Thank you for... <a href="#" class="text-danger">See more</a>
-                                                    </p> 
-                                                </div>                                                
-                                            </div>
-                                        </li>
-                                        <li class="text-center text-danger list-group-item bg-light">View all Comments...</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            {% endfor %}                          
                         </div>
-                        
-                        
-                        
                     </div>
                 </div>
             </section>

@@ -85,73 +85,31 @@
             </div>
           </section>
         
-          <div class="album py-5 bg-light">
+        <div class="album py-5 bg-light">
             <div class="container">
         
-              <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="hillsvn.jpg" alt="" class="card-image-top cardFeature">
-            
-                        <div class="card-body">
-                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
-                        <p class="card-text">9 minutes ago.</p>
-                        </div>                        
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+                    {% for post in posts %}
+                    <div class="col">
+                        <a href="">
+                            <div class="card shadow-sm">
+                                <img src="/static/images/posts/{{post.image}}" alt="" class="card-image-top cardFeature">
+                    
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        {{post.body}}
+                                    </p>
+                                    <p class="card-text">
+                                        {{post.timestamp}}
+                                    </p>
+                                </div>                        
+                            </div>
+                        </a>
                     </div>
+                    {% endfor %}      
                 </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="mountain.jpg" alt="" class="card-image-top cardFeature">
-            
-                        <div class="card-body">
-                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
-                        <p class="card-text">9 minutes ago.</p>
-                        </div>                        
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="jamie.jpg" alt="" class="card-image-top cardFeature">
-            
-                        <div class="card-body">
-                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
-                        <p class="card-text">9 minutes ago.</p>
-                        </div>                        
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="halong3.jpg" alt="" class="card-image-top cardFeature">
-            
-                        <div class="card-body">
-                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
-                        <p class="card-text">9 minutes ago.</p>
-                        </div>                        
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="mountain.jpg" alt="" class="card-image-top cardFeature">
-            
-                        <div class="card-body">
-                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
-                        <p class="card-text">9 minutes ago.</p>
-                        </div>                        
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="hillsvn.jpg" alt="" class="card-image-top">
-            
-                        <div class="card-body">
-                        <p class="card-text">Green Coffee, Ho Chi Minh</p>
-                        <p class="card-text">9 minutes ago.</p>
-                        </div>                        
-                    </div>
-                </div>
-                
-              </div>
+
             </div>
-          </div>
+        </div>
 {% endblock %}
         
