@@ -23,7 +23,7 @@
             <div class="container-lg">
                 <div class="row">
                     <div class="col d-flex justify-content-center">
-                        {% if current_user.cover_pic %}
+                        {% if user.cover_pic %}
                         <div id="coverPicDisplay"></div>
                         {% else %}
                         <div id="coverDefaultDisplay"></div>
@@ -38,7 +38,7 @@
                         <img src="{{ current_user.avatar(128) }}" alt="" class="rounded rounded-5 ms-2">
                         {% endif %}
                         <div class="pb-3">
-                            <h3>Jamie Furlong</h4>
+                            <h3>{{ user.firstName }} {{ user.lastName }}</h4>
                                 {% if user.caption %}<h6 class="text-muted">{{ user.caption }}</h6>{% endif %}
                                 {% if user.lastSeen %}<p>Last seen on: {{ user.lastSeen }}</p>{% endif %}
                                 <p>{{ user.followers.count() }} followers, {{ user.followed.count() }} following.</p>

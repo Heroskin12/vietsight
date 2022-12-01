@@ -18,16 +18,18 @@
                                 <div class="friendsList px-2">
                                     <h6 class="text-muted">People in your network...</h6><hr>
                                     <ul class="px-0">
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="halong3.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">De Con</a></li>
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Jamie Furlong</a></li>
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Joe Bloggs</a></li>
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="halong3.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">David Malan</a></li>
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Xavier Napliona</a></li>
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Mohammed Al-Qurah</a></li>
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="halong3.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Fiona Kemp</a></li>
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Patricia Diaz</a></li>
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Marie Guermond</a></li>
-                                        <li><a href="" class="text-decoration-none text-muted"><img src="halong3.jpg" alt="" class="card-added-images rounded rounded-5 me-3 mb-3">Francis Wilson</a></li>
+                                        {% for user in followed_users %}
+                                        <li><a href="{{url_for('profile', username=user.username)}}">
+                                            {% if user.profile_pic %}
+                                            <img src="/static/images/profile/user.profile_pic" alt="">
+                                            {% elif user.avatar %}
+                                                <img src="{{user.avatar(64)}}" alt="">
+                                            {% else %}
+                                            <img src="/static/images/mountain.jpg" alt="">
+                                            {% endif %}
+                                            {{user.firstName}} {{user.lastName}}</a>
+                                        </li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                             </div>
@@ -44,17 +46,25 @@
                             {% for post in posts %}
                             <div class="card mb-5 bg-light p-4 rounded rounded-2">
                                 <div class="card-body p-0 mb-3">
-                                    <div class="d-flex my-3">
-                                        <img src="/static/images/profile/{{post.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5 me-2">
-                                        <div class="d-flex flex-column">
-                                            <h5 class="card-title">{{post.author.firstName}} {{post.author.lastName}}</h5>
-                                            <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
+                                    <a href="{{url_for('profile', username = post.author.username)}}" class="text-decoration-none">
+                                        <div class="d-flex my-3">
+                                            {% if post.author.profile_pic %}
+                                            <img src="/static/images/profile/{{post.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5 me-2">
+                                            {% elif post.author.avatar %}
+                                            <img src="{{ post.author.avatar(64) }}" alt="" class="rounded rounded-5 ms-2">
+                                            {% else %}
+                                            <img src="/static/images/mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
+                                            {% endif %}
+                                            <div class="d-flex flex-column">
+                                                <h5 class="card-title text-black">{{post.author.firstName}} {{post.author.lastName}}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                     <p class="card-text">{{post.body}} <a href="#" class="text-danger d-block">See more</a></p>
                                 </div>
                                 <img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top">
-                                {% if posts.comments %}
+                                {% if post.comments == '1' %}
                                 <div class="card-body bg-light">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item bg-light mb-3">
@@ -74,6 +84,14 @@
                                             </div>
                                         </li>
                                         <li class="text-center text-danger list-group-item bg-light">View all Comments...</li>
+                                    </ul>
+                                </div>
+                                {% else %}
+                                <div class="card-body bg-light">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item bg-light mb-3">
+                                            <p class="text-danger">Comments have been disabled on this post.</p>
+                                        </li>
                                     </ul>
                                 </div>
                                 {% endif %}
