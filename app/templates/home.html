@@ -57,6 +57,7 @@
                                             {% endif %}
                                             <div class="d-flex flex-column">
                                                 <h5 class="card-title text-black">{{post.author.firstName}} {{post.author.lastName}}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted"><a href="{{url_for('bucket', username=post.author.username)}}">View {{post.author.firstName}}'s Bucket List</a></h6>
                                                 <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
                                             </div>
                                         </div>
@@ -64,6 +65,17 @@
                                     <p class="card-text">{{post.body}} <a href="#" class="text-danger d-block">See more</a></p>
                                 </div>
                                 <img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top">
+                                {% if current_user.in_bucket(post) %}
+                                <form action="{{url_for('remove_bucket', id=post.id)}}", method="post">
+                                    {{BucketForm.hidden_tag()}}
+                                    {{BucketForm.submit(class_='btn btn-danger text-light mt-4', Value="Remove from Bucket List")}}
+                                </form>
+                                {% else %}
+                                <form action="{{url_for('add_bucket', id=post.id) }}", method="post">
+                                    {{BucketForm.hidden_tag()}}
+                                    {{BucketForm.submit(class_='btn btn-danger text-light mt-4', Value="Add to Bucket List")}}
+                                </form>
+                                {% endif %}
                                 {% if post.comments == '1' %}
                                 <div class="card-body bg-light">
                                     <ul class="list-group list-group-flush">
@@ -96,7 +108,15 @@
                                 </div>
                                 {% endif %}
                             </div>
-                            {% endfor %}                          
+                            {% endfor %}  
+                            <div class="d-flex justify-content-center align-items-center p-1 mb-5">
+                                {% if prev_url %}
+                                <a href="{{ prev_url }}" class="text-decoration-none pe-5 text-danger">Newer posts</a>
+                                {% endif %}
+                                {% if next_url %}
+                                <a href="{{ next_url }}" class="text-decoration-none text-danger">Older posts</a>
+                                {% endif %}                     
+                            </div> 
                         </div>
                     </div>
                 </div>

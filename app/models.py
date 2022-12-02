@@ -11,6 +11,13 @@ db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
 db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 )
 
+# Represents the relationship between users and the posts they have bucketed.
+post_followers = db.Table('post_followers',
+db.Column('post_follower_id', db.Integer, db.ForeignKey('user.id')),
+db.Column('followed_post_id', db.Integer, db.ForeignKey('post.id'))
+)
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String)
@@ -39,6 +46,9 @@ class User(UserMixin, db.Model):
         # Defines how the relationship will be accessed by the right side entity. From the left, it is noamed followed, but the right uses followers.
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic'
     )
+
+    # Function below accesses the bucket relationship.
+    bucket_list = db.relationship('Post', secondary=post_followers, backref='bucketer_list', lazy='dynamic')
 
     def __repr__(self):
         return '<User {} {}>'.format(self.firstName, self.lastName)
@@ -84,6 +94,7 @@ class User(UserMixin, db.Model):
         # Count the number of users with the same id as the user you want to follow. If it is more than 0 then return True.
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
+
     def followed_posts(self):
         followed = Post.query.join(
             # Gets a list of posts by people who the current user follows.
@@ -93,6 +104,27 @@ class User(UserMixin, db.Model):
         own = Post.query.filter_by(user_id=self.id)
         # Joins both temp tables and orders them by most recent first.
         return followed.union(own).order_by(Post.timestamp.desc())
+
+    def add_to_bucket(self, post):
+        if not self.in_bucket(post):
+            self.bucket_list.append(post)
+
+    def remove_from_bucket(self, post):
+        if self.in_bucket(post):
+            self.bucket_list.remove(post)
+
+    def in_bucket(self, post):
+        return self.bucket_list.filter(post_followers.c.followed_post_id == post.id).count() > 0
+
+    def bucketed_posts(self):
+        # Gets a list of posts followed by the user.
+        return self.bucket_list
+
+    def bucketer_users(self, post):
+        return post.bucketer_list
+
+
+    
             
 
 class Post(db.Model):

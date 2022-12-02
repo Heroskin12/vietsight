@@ -68,3 +68,6 @@ class ResetPasswordForm(FlaskForm):
 
 class EmptyForm(FlaskForm):
     submit = SubmitField('Submit')
+
+class BucketForm(FlaskForm):
+    submit = SubmitField('Submit')

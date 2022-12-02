@@ -106,9 +106,16 @@
                             </div>
                         </a>
                     </div>
-                    {% endfor %}      
+                    {% endfor %}     
                 </div>
-
+                <div class="d-flex justify-content-center align-items-center p-1 my-5">
+                    {% if prev_url %}
+                    <a href="{{ prev_url }}" class="text-decoration-none pe-5 text-danger">Newer posts</a>
+                    {% endif %}
+                    {% if next_url %}
+                    <a href="{{ next_url }}" class="text-decoration-none text-danger">Older posts</a>
+                    {% endif %}                     
+                </div>  
             </div>
         </div>
 {% endblock %}

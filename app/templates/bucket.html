@@ -1,0 +1,57 @@
+{% extends "base.html"%}
+{% block content %}
+
+    <section id="bucketList mt-5">
+        <div class="container mt-5 pt-5">
+            <div class="row pt-5">
+                <div class="column text-center">
+                    
+                    {% if user.id == current_user.id %}
+                        <h1>Your Bucket List</h1>
+                    {% else %}
+                        <h1> {{user.firstName}}'s Bucket List</h1>
+                    {% endif %}
+
+                    <h6>Find something new to do this weekend!</h6>
+
+                    <div class="searchForm my-4">
+                        <form action="">
+                            <input type="text" class="form-control" placeholder="Search for a person, place or type of place...">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+                <div class="album py-5">
+                    <div class="container">                
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+                        {% for post in posts %}
+                            <div class="col">
+                                <div class="card mb-5 bg-light p-4 rounded rounded-2">
+                                    <div class="card-body p-0 mb-3">
+                                        <div class="d-flex my-3">
+                                            {% if post.author.profile_pic %}
+                                            <div id="profilePicDisplay" class="rounded rounded-5 ms-2 me-4 card-added-images"></div>
+                                            {% elif post.author.avatar %}
+                                            <img src="{{ post.author.avatar(128) }}" alt="" class="rounded rounded-5 ms-2 card-added-images">
+                                            {% else %}
+                                            <img src="/static/images/halong3.jpg" alt="" class="rounded rounded-5 me-4 card-added-images">
+                                            {% endif %}
+                                            <div class="d-flex flex-column">
+                                                <h5 class="card-title">{{post.author.firstName}} {{post.author.lastName}}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">{{post.body}}</p>
+                                    </div>
+                                    <img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top">
+                                    <a href="" class="btn btn-danger rounded rounded-0 rounded-bottom">See Post</a>
+                                </div>
+                            </div>
+                        {% endfor %}                        
+                    </div>
+                </div>
+
+        </div>
+    </section>
+{% endblock %}
