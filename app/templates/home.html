@@ -44,6 +44,7 @@
                         <div class="col-xl-7 mx-auto">
                             <!-- Card 1 -->
                             {% for post in posts %}
+                            <h1>{{post.comments_allowed}}</h1>
                             <div class="card mb-5 bg-light p-4 rounded rounded-2">
                                 <div class="card-body p-0 mb-3">
                                     <a href="{{url_for('profile', username = post.author.username)}}" class="text-decoration-none">
@@ -76,25 +77,29 @@
                                     {{BucketForm.submit(class_='btn btn-danger text-light mt-4', Value="Add to Bucket List")}}
                                 </form>
                                 {% endif %}
-                                {% if post.comments == '1' %}
+                                {% if post.comments_allowed == '1' %}
                                 <div class="card-body bg-light">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item bg-light mb-3">
-                                            <form action="">
-                                                <input type="text" class="form-control" placeholder="Write a comment...">
+                                            <form action="/add_comment/{{post.id}}" method="post" novalidate>
+                                               {{commentForm.hidden_tag()}}
+                                               {{commentForm.body(class_='form-control')}}
                                             </form>
                                         </li>
+                                        {% for comment in post.comments %}
                                         <li class="list-group-item bg-light">
                                             <div class="d-flex">
-                                                <img src="hillsvn.jpg" alt="" class="card-added-images rounded rounded-5">
+                                                <img src="/static/images/profile/{{comment.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5">
                                                 <div class="d-flex flex-column ms-3">
-                                                    <h6 class="text-muted">Jamie Furlong</h4>
+                                                    <h6 class="text-muted">{{comment.author.firstName}} {{comment.author.lastName}}</h4>
                                                     <p>
-                                                        I came here many years ago with my mother. I have many fond memories. Thank you for... <a href="#" class="text-danger">See more</a>
+                                                        {{comment.body}} <a href="#" class="text-danger">See more</a>
                                                     </p> 
+                                                    <p>{{comment.timestamp}}</p>
                                                 </div>                                                
                                             </div>
                                         </li>
+                                        {% endfor %}
                                         <li class="text-center text-danger list-group-item bg-light">View all Comments...</li>
                                     </ul>
                                 </div>

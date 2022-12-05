@@ -34,6 +34,8 @@ class User(UserMixin, db.Model):
     # E.g. post.author.firstName would return the firstName from the User model.
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
+
     # When followed is queried, you will get the list of users that person follows.
     followed = db.relationship(
         # User is the class on the right side of the relationship.
@@ -133,12 +135,26 @@ class Post(db.Model):
     body = db.Column(db.String)    
     location = db.Column(db.String)
     directions = db.Column(db.String)
-    comments = db.Column(db.String)
+    comments_allowed = db.Column(db.String)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def __repr__(self):
         return '<Post {}, {}, {}>'.format(self.body, self.image, self.comments)
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+
+    def __repr__(self):
+        return '<Comment {}>'.format(self.body)
+
+
+
 
 @login.user_loader
 def load_user(id):

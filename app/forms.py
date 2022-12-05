@@ -36,7 +36,7 @@ class UploadForm(FlaskForm):
     description = TextAreaField('Describe the Post', validators=[DataRequired(), Length(min=1, max=500)])
     location = StringField('Where is this place?', validators=[DataRequired()])
     directions = TextAreaField('How do you get to this place?', validators=[DataRequired(), Length(min=1, max=500)])
-    comments = BooleanField('Allow Comments')
+    comments_allowed = BooleanField('Allow Comments')
     submit = SubmitField('Upload')
 
 class CaptionForm(FlaskForm):
@@ -70,4 +70,8 @@ class EmptyForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class BucketForm(FlaskForm):
+    submit = SubmitField('Submit')
+
+class CommentForm(FlaskForm):
+    body = StringField('Add a comment...')
     submit = SubmitField('Submit')

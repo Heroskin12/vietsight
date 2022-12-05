@@ -5,8 +5,8 @@ import imghdr
 import os
 from app import app, db
 from app.email import send_password_reset_email
-from app.forms import LoginForm, RegisterForm, UploadForm, CaptionForm, ProfileForm, CoverForm, PasswordForm, ResetPasswordRequestForm, ResetPasswordForm, EmptyForm, BucketForm
-from app.models import User, Post
+from app.forms import LoginForm, RegisterForm, UploadForm, CaptionForm, ProfileForm, CoverForm, PasswordForm, ResetPasswordRequestForm, ResetPasswordForm, EmptyForm, BucketForm, CommentForm
+from app.models import User, Post, Comment
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 
@@ -146,6 +146,7 @@ def reset_password(token):
 def home():
     # Followed_Posts is a function hence why we call it.
     bucketform = BucketForm()
+    commentForm = CommentForm()
     followed_users = current_user.followed
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
@@ -156,12 +157,13 @@ def home():
         if posts.has_prev else None
     return render_template('home.html', title='Home',
                            posts=posts.items, next_url=next_url,
-                           prev_url=prev_url, followed_users=followed_users, BucketForm=bucketform)
+                           prev_url=prev_url, followed_users=followed_users, BucketForm=bucketform, commentForm=commentForm)
 
 @app.route('/explore')
 @login_required
 def explore():
     bucketform = BucketForm()
+    commentForm = CommentForm()
     # Get all posts to display on the explore page to hepl users find other people.
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
@@ -171,7 +173,7 @@ def explore():
     prev_url = url_for('explore', page=posts.prev_num) \
         if posts.has_prev else None
     return render_template("home.html", title='Explore', posts=posts.items,
-                          next_url=next_url, prev_url=prev_url,BucketForm=bucketform)
+                          next_url=next_url, prev_url=prev_url,BucketForm=bucketform, commentForm=commentForm)
 
 @app.route('/profile/<username>')
 @login_required
@@ -206,7 +208,7 @@ def upload():
     form = UploadForm()    
     if form.validate_on_submit():
         print('Hello!')
-        print(form.image.data, form.description.data, form.location.data, form.directions.data, form.comments.data)
+        print(form.image.data, form.description.data, form.location.data, form.directions.data, form.comments_allowed.data)
         uploaded_file = request.files['image']
         filename = secure_filename(uploaded_file.filename)
         print("Hello" + filename)
@@ -225,7 +227,7 @@ def upload():
                 body = form.description.data,
                 location = form.location.data,
                 directions = form.directions.data,
-                comments = form.comments.data,
+                comments_allowed = form.comments_allowed.data,
                 author = current_user
                 )
             db.session.add(post)
@@ -407,7 +409,30 @@ def remove_bucket(id):
         # Call the unfollow function.
         current_user.remove_from_bucket(post)
         db.session.commit()
-        flash('You have remove this post from your bucket list.')
+        flash('You have removed this post from your bucket list.')
         return redirect(url_for('bucket', username=current_user.username))
     else:
         return redirect(url_for('home'))
+
+@app.route('/add_comment/<id>', methods=["POST"])
+@login_required
+def add_comment(id):
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        print(form.body.data)
+        comment = Comment(
+            body = form.body.data,
+            author = current_user,
+            post = Post.query.filter_by(id=id).first())
+
+        db.session.add(comment)
+        db.session.commit()
+
+        return redirect(url_for('home'))
+    
+    flash("Error. Please try again.")
+    return redirect(url_for('home'))
+
+
+
