@@ -44,7 +44,7 @@
                         <div class="col-xl-7 mx-auto">
                             <!-- Card 1 -->
                             {% for post in posts %}
-                            <h1>{{post.comments_allowed}}</h1>
+                            
                             <div class="card mb-5 bg-light p-4 rounded rounded-2">
                                 <div class="card-body p-0 mb-3">
                                     <a href="{{url_for('profile', username = post.author.username)}}" class="text-decoration-none">
@@ -63,9 +63,9 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <p class="card-text">{{post.body}} <a href="#" class="text-danger d-block">See more</a></p>
+                                    <p class="card-text">{{post.body}} <a href="{{url_for('post', id=post.id)}}" class="text-danger d-block">See more</a></p>
                                 </div>
-                                <img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top">
+                                <a href="{{url_for('post', id=post.id)}}"><img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top"></a>
                                 {% if current_user.in_bucket(post) %}
                                 <form action="{{url_for('remove_bucket', id=post.id)}}", method="post">
                                     {{BucketForm.hidden_tag()}}
@@ -84,6 +84,7 @@
                                             <form action="/add_comment/{{post.id}}" method="post" novalidate>
                                                {{commentForm.hidden_tag()}}
                                                {{commentForm.body(class_='form-control')}}
+                                               {{commentForm.submit(class_='btn btn-danger')}}
                                             </form>
                                         </li>
                                         {% for comment in post.comments %}
@@ -91,16 +92,22 @@
                                             <div class="d-flex">
                                                 <img src="/static/images/profile/{{comment.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5">
                                                 <div class="d-flex flex-column ms-3">
-                                                    <h6 class="text-muted">{{comment.author.firstName}} {{comment.author.lastName}}</h4>
+                                                    <h6 class="text-muted">{{comment.author.firstName}} {{comment.author.lastName}}</h6>
                                                     <p>
                                                         {{comment.body}} <a href="#" class="text-danger">See more</a>
                                                     </p> 
                                                     <p>{{comment.timestamp}}</p>
+                                                    {% if comment.author == current_user %}
+                                                    <form action="/delete_comment/{{comment.id}}" method="post">
+                                                        {{emptyForm.hidden_tag()}}
+                                                        {{emptyForm.submit(value="Delete")}}
+                                                    </form>
+                                                    {% endif %}                                                    
                                                 </div>                                                
                                             </div>
                                         </li>
                                         {% endfor %}
-                                        <li class="text-center text-danger list-group-item bg-light">View all Comments...</li>
+                                        <li class="text-center text-danger list-group-item bg-light mt-5"><a href="{{url_for('post', id=post.id)}}">View all Comments...</a></li>
                                     </ul>
                                 </div>
                                 {% else %}

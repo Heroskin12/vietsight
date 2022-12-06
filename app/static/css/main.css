@@ -7,6 +7,10 @@
 	list-style-type: none;
 }
 
+.displayBlock {
+	display: block !important;
+}
+
 #profile-img {
 	height: 50px;
 	width: 50px;

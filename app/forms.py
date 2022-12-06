@@ -73,5 +73,5 @@ class BucketForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class CommentForm(FlaskForm):
-    body = StringField('Add a comment...')
+    body = TextAreaField('Add a comment...', validators=[DataRequired(), Length(min=1, max=500)])
     submit = SubmitField('Submit')

@@ -147,6 +147,7 @@ def home():
     # Followed_Posts is a function hence why we call it.
     bucketform = BucketForm()
     commentForm = CommentForm()
+    emptyForm = EmptyForm()
     followed_users = current_user.followed
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
@@ -157,13 +158,14 @@ def home():
         if posts.has_prev else None
     return render_template('home.html', title='Home',
                            posts=posts.items, next_url=next_url,
-                           prev_url=prev_url, followed_users=followed_users, BucketForm=bucketform, commentForm=commentForm)
+                           prev_url=prev_url, followed_users=followed_users, BucketForm=bucketform, commentForm=commentForm, emptyForm=emptyForm)
 
 @app.route('/explore')
 @login_required
 def explore():
     bucketform = BucketForm()
     commentForm = CommentForm()
+    emptyForm = EmptyForm()
     # Get all posts to display on the explore page to hepl users find other people.
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
@@ -173,7 +175,7 @@ def explore():
     prev_url = url_for('explore', page=posts.prev_num) \
         if posts.has_prev else None
     return render_template("home.html", title='Explore', posts=posts.items,
-                          next_url=next_url, prev_url=prev_url,BucketForm=bucketform, commentForm=commentForm)
+                          next_url=next_url, prev_url=prev_url,BucketForm=bucketform, commentForm=commentForm, emptyForm=emptyForm)
 
 @app.route('/profile/<username>')
 @login_required
@@ -239,6 +241,22 @@ def upload():
 
     print('This is a get request')
     return render_template('upload.html', title='Upload a Post', form=form)
+
+@app.route('/delete_post/<id>', methods=["POST"])
+@login_required
+def delete_post(id):
+    form = EmptyForm()
+
+    if form.validate_on_submit():
+        post = Post.query.filter_by(id=id).first()
+        db.session.delete(post)
+        db.session.commit()
+        flash('Post Deleted.')
+        return redirect(url_for('home'))
+
+    flash('Error. Please try again.')
+    return redirect(url_for('home'))
+
 
 @app.route('/settings', methods=["GET", "POST"])
 @login_required
@@ -434,5 +452,29 @@ def add_comment(id):
     flash("Error. Please try again.")
     return redirect(url_for('home'))
 
+@app.route('/delete_comment/<id>', methods=["POST"])
+@login_required
+def delete_comment(id):
+    form = EmptyForm()
+
+    if form.validate_on_submit():
+        comment = Comment.query.filter_by(id=id).first()
+        db.session.delete(comment)
+        db.session.commit()
+        flash("Comment successfully deleted!")
+        return redirect(url_for('home'))
+    
+    flash("Error. Please try again!")
+    return redirect(url_for('home'))
+
+@app.route('/post/<id>', methods=["GET"])
+@login_required
+def post(id):
+    commentForm = CommentForm()
+    bucket = BucketForm()
+    empty = EmptyForm()
+    post = Post.query.filter_by(id=id).first()
+    print(post)
+    return render_template('post.html', post=post, commentForm=commentForm, BucketForm=bucket, empty=empty)
 
 

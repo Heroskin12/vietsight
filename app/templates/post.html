@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+
+        <section id="indPost">
+            <div class="container-lg mb-5">
+                <div class="card mt-5">
+                    <div class="card-body pt-5 px-0">
+                        <div class="d-flex my-3">
+                            {% if post.author.profile_pic %}
+                                <img src="/static/images/profile/{{post.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5 me-2">
+                            {% elif post.author.avatar %}
+                                <img src="{{ post.author.avatar(64) }}" alt="" class="rounded rounded-5 ms-2">
+                            {% else %}
+                                <img src="/static/images/mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
+                            {% endif %}
+                            <div class="d-flex flex-column">
+                                <h5 class="card-title">{{post.author.firstName}} {{post.author.lastName}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
+                            </div>
+                        </div>
+                        <p class="card-text">{{post.body}}</p>
+                        <div class="postTextItems d-flex justify-content-center">
+                            <ul class="p-4 d-flex justify-content-center">
+                                <li class="me-3 p-3 px-5"><p><span class="text-danger d-block">Where?</span>{{post.location}}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                        <img src="/static/images/posts/{{post.image}}" class="card-img-top" alt="...">
+                    </div>
+                    <div class="card-body my-4 border-bottom border-danger pb-4">
+                      <h5 class="card-title text-danger">How to get there?</h5>
+                      <p class="card-text">{{post.directions}}</p>
+                    </div>
+                    {% if current_user.in_bucket(post) %}
+                        <form action="{{url_for('remove_bucket', id=post.id)}}", method="post">
+                            {{BucketForm.hidden_tag()}}
+                            {{BucketForm.submit(class_='btn btn-danger text-light mt-4', Value="Remove from Bucket List")}}
+                        </form>
+                    {% else %}
+                        <form action="{{url_for('add_bucket', id=post.id) }}", method="post">
+                            {{BucketForm.hidden_tag()}}
+                            {{BucketForm.submit(class_='btn btn-danger text-light mt-4', Value="Add to Bucket List")}}
+                        </form>
+                    {% endif %}
+
+                    {% if post.author == current_user %}
+                        <form action="{{url_for('delete_post', id=post.id)}}" method="post">
+                            {{empty.hidden_tag()}}
+                            {{empty.submit(class_='btn btn-danger', value='Delete Post')}}
+                        </form>
+                    {% endif %}
+
+                    {% if post.comments_allowed == '1' %}
+                                <div class="card-body bg-light">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item bg-light mb-3">
+                                            <form action="/add_comment/{{post.id}}" method="post" novalidate>
+                                               {{commentForm.hidden_tag()}}
+                                               {{commentForm.body(class_='form-control')}}
+                                               {{commentForm.submit(class_='btn btn-danger')}}
+                                            </form>
+                                        </li>
+                                        {% for comment in post.comments %}
+                                        <li class="list-group-item bg-light">
+                                            <div class="d-flex">
+                                                <img src="/static/images/profile/{{comment.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5">
+                                                <div class="d-flex flex-column ms-3">
+                                                    <h6 class="text-muted">{{comment.author.firstName}} {{comment.author.lastName}}</h6>
+                                                    <p>
+                                                        {{comment.body}} <a href="#" class="text-danger">See more</a>
+                                                    </p> 
+                                                    <p>{{comment.timestamp}}</p>
+                                                    {% if comment.author == current_user %}
+                                                    <form action="/delete_comment/{{comment.id}}" method="post">
+                                                        {{empty.hidden_tag()}}
+                                                        {{empty.submit(value="Delete")}}
+                                                    </form>
+                                                    {% endif %}                                                    
+                                                </div>                                                
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                        <li class="text-center text-danger list-group-item bg-light mt-5">View more Comments...</li>
+                                    </ul>
+                                </div>
+                                {% else %}
+                                <div class="card-body bg-light">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item bg-light mb-3">
+                                            <p class="text-danger">Comments have been disabled on this post.</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% endif %}
+                   
+
+            </div>
+        </section>
+{%endblock%}

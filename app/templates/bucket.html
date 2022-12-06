@@ -38,14 +38,20 @@
                                             <img src="/static/images/halong3.jpg" alt="" class="rounded rounded-5 me-4 card-added-images">
                                             {% endif %}
                                             <div class="d-flex flex-column">
+                                                <form action="{{url_for('remove_bucket', id=post.id)}}", method="post">
+                                                    {{form.hidden_tag()}}
+                                                    {{form.submit(class_='btn btn-danger', value='Remove')}}
+                                                </form>
                                                 <h5 class="card-title">{{post.author.firstName}} {{post.author.lastName}}</h5>
                                                 <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
                                             </div>
                                         </div>
                                         <p class="card-text">{{post.body}}</p>
                                     </div>
-                                    <img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top">
-                                    <a href="" class="btn btn-danger rounded rounded-0 rounded-bottom">See Post</a>
+                                    <a href="{{url_for('post', id=post.id)}}">
+                                        <img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top">
+                                        <p class="btn btn-danger rounded rounded-0 rounded-bottom w-100">See Post</p>
+                                    </a>
                                 </div>
                             </div>
                         {% endfor %}                        
