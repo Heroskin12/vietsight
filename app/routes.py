@@ -467,6 +467,22 @@ def delete_comment(id):
     flash("Error. Please try again!")
     return redirect(url_for('home'))
 
+@app.route('/edit_comment/<id>', methods=["POST"])
+@login_required
+def edit_comment(id):
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        comment = Comment.query.filter_by(id=id).first()
+        comment.body = form.body.data
+        db.session.commit()
+        flash("Comment successfully edited.")
+        return redirect(url_for('home'))
+
+    flash("Error. Please try again.")
+    return redirect(url_for('home'))
+
+
 @app.route('/post/<id>', methods=["GET"])
 @login_required
 def post(id):

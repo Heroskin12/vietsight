@@ -71,10 +71,26 @@
                                                     </p> 
                                                     <p>{{comment.timestamp}}</p>
                                                     {% if comment.author == current_user %}
-                                                    <form action="/delete_comment/{{comment.id}}" method="post">
+                                                    <form action="{{url_for('delete_comment', id=comment.id)}}" method="post">
                                                         {{empty.hidden_tag()}}
                                                         {{empty.submit(value="Delete")}}
                                                     </form>
+
+                                                    <p>
+                                                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{comment.id}}" aria-expanded="false" aria-controls="collapseExample{{comment.id}}">
+                                                          Button with data-bs-target
+                                                        </button>
+                                                      </p>
+                                                      <div class="collapse" id="collapseExample{{comment.id}}">
+                                                        <div class="card card-body">
+                                                          <form action="{{url_for('edit_comment', id=comment.id)}}" method="post">
+                                                            {{commentForm.hidden_tag()}}
+                                                            <p>Original Comment: {{comment.body}}</p>
+                                                            {{commentForm.body(class_='form-control')}}
+                                                            {{commentForm.submit}}
+                                                          </form>
+                                                        </div>
+                                                      </div>
                                                     {% endif %}                                                    
                                                 </div>                                                
                                             </div>
