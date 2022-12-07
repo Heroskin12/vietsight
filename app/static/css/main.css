@@ -43,9 +43,15 @@
 	outline: none;
 }
 
-li img, .card-added-images {
+li img {
 	height: 50px;
 	width: 50px;
+}
+
+.card-added-images {
+	height: 75px;
+	width: 75px;
+	border-radius: 50% !important;
 }
 
 #collapseDisplay {
@@ -56,11 +62,12 @@ li img, .card-added-images {
 	border: none !important;
 }
 
-.profileImage {
-	height: 200px;
-	width: 200px;
-	border-radius: 50%;
-	border:5px solid white;
+i {
+	font-size: 1.5rem !important;
+}
+
+#edit a:hover {
+	text-decoration: underline !important;
 }
 
 .negativeRow {

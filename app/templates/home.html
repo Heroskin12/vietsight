@@ -50,58 +50,85 @@
                                     <a href="{{url_for('profile', username = post.author.username)}}" class="text-decoration-none">
                                         <div class="d-flex my-3">
                                             {% if post.author.profile_pic %}
-                                            <img src="/static/images/profile/{{post.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5 me-2">
+                                            <img src="/static/images/profile/{{post.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5 me-3">
                                             {% elif post.author.avatar %}
-                                            <img src="{{ post.author.avatar(64) }}" alt="" class="rounded rounded-5 ms-2">
+                                            <img src="{{ post.author.avatar(64) }}" alt="" class="rounded rounded-5 ms-2 card-added-images me-3">
                                             {% else %}
                                             <img src="/static/images/mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
                                             {% endif %}
                                             <div class="d-flex flex-column">
                                                 <h5 class="card-title text-black">{{post.author.firstName}} {{post.author.lastName}}</h5>
-                                                <h6 class="card-subtitle mb-2 text-muted"><a href="{{url_for('bucket', username=post.author.username)}}">View {{post.author.firstName}}'s Bucket List</a></h6>
-                                                <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
+                                                <h6 class="card-subtitle mb-2 text-muted"><a href="{{url_for('bucket', username=post.author.username)}}" class="text-muted">View {{post.author.firstName}}'s Bucket List</a></h6>
                                             </div>
                                         </div>
                                     </a>
-                                    <p class="card-text">{{post.body}} <a href="{{url_for('post', id=post.id)}}" class="text-danger d-block">See more</a></p>
+                                    <h6 class="card-subtitle mb-2 text-muted ps-2">{{post.timestamp}}</h6>
+                                    <p class="card-text ps-2">{{post.body}} <a href="{{url_for('post', id=post.id)}}" class="text-danger d-block">See more</a></p>
                                 </div>
                                 <a href="{{url_for('post', id=post.id)}}"><img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top"></a>
-                                {% if current_user.in_bucket(post) %}
-                                <form action="{{url_for('remove_bucket', id=post.id)}}", method="post">
-                                    {{BucketForm.hidden_tag()}}
-                                    {{BucketForm.submit(class_='btn btn-danger text-light mt-4', Value="Remove from Bucket List")}}
-                                </form>
-                                {% else %}
-                                <form action="{{url_for('add_bucket', id=post.id) }}", method="post">
-                                    {{BucketForm.hidden_tag()}}
-                                    {{BucketForm.submit(class_='btn btn-danger text-light mt-4', Value="Add to Bucket List")}}
-                                </form>
-                                {% endif %}
+                                <div class="d-flex mt-3 align-items-center">
+                                    <div class="pe-2 ms-2 mb-2">
+                                        {% if current_user.in_bucket(post) %}
+                                        <a href="{{url_for('remove_bucket', id=post.id)}}">
+                                            <i class="fa-solid fa-bucket fa-1x text-danger pb-1"></i>
+                                        </a>
+                                        <style>
+                                            i:hover {
+                                                color: #333 !important;
+                                                cursor: pointer;
+                                            }
+                                        </style>
+                                        {% else %}
+                                        <a href="{{url_for('add_bucket', id=post.id)}}">
+                                            <i class="fa-solid fa-bucket fa-1x text-muted"></i>
+                                            <style>
+                                                i:hover {
+                                                    color: #a12733 !important;
+                                                    cursor: pointer;
+                                                }
+                                            </style>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if post.bucketer_list|length == 0 %}
+                                    <h6>Nobody has added this to their bucket list. Be the first?</h6>
+                                    {% elif post.bucketer_list|length == 1 %}
+                                    <h6>{{post.bucketer_list|length}} person has added this to their bucket list.</h6>
+                                    {% else %}
+                                    <h6>{{post.bucketer_list|length}} people have added this post to their bucket list. </h6>
+                                    {% endif %}
+
+                                </div>
                                 {% if post.comments_allowed == '1' %}
                                 <div class="card-body bg-light">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item bg-light mb-3">
-                                            <form action="/add_comment/{{post.id}}" method="post" novalidate>
+                                            <form action="/add_comment/{{post.id}}" method="post" novalidate class="border-bottom border-muted pb-4">
                                                {{commentForm.hidden_tag()}}
-                                               {{commentForm.body(class_='form-control')}}
-                                               {{commentForm.submit(class_='btn btn-danger')}}
+                                               {{commentForm.body(class_='form-control', placeholder="Add a comment...")}}
+                                               {{commentForm.submit(class_='btn btn-danger mt-3')}}
                                             </form>
                                         </li>
                                         {% for comment in post.comments %}
-                                        <li class="list-group-item bg-light">
+                                        <li class="list-group-item bg-light border-bottom border-black pb-2">
                                             <div class="d-flex">
                                                 <img src="/static/images/profile/{{comment.author.profile_pic}}" alt="" class="card-added-images rounded rounded-5">
-                                                <div class="d-flex flex-column ms-3">
-                                                    <h6 class="text-muted">{{comment.author.firstName}} {{comment.author.lastName}}</h6>
+                                                <div class="d-flex flex-column ms-3 p-2">
+                                                    <h6 class="text-black">{{comment.author.firstName}} {{comment.author.lastName}}</h6>
                                                     <p>
                                                         {{comment.body}} <a href="#" class="text-danger">See more</a>
                                                     </p> 
                                                     <p>{{comment.timestamp}}</p>
                                                     {% if comment.author == current_user %}
-                                                    <form action="/delete_comment/{{comment.id}}" method="post">
-                                                        {{emptyForm.hidden_tag()}}
-                                                        {{emptyForm.submit(value="Delete")}}
-                                                    </form>
+                                                    <div class="d-flex mt-0 pt-0 pb-3 border-bottom border-dark" id="edit">
+                                                        <a href="/edit_comment/{{comment.id}}" class="text-muted fz-2 text-decoration-none pe-2">
+                                                            Edit
+                                                        </a>
+                                                        <a href="/delete_comment/{{comment.id}}" class="text-muted fz-2 text-decoration-none">
+                                                            Delete
+                                                        </a>
+                                                    </div>
                                                     {% endif %}                                                    
                                                 </div>                                                
                                             </div>

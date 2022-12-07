@@ -29,27 +29,34 @@
                             <div class="col">
                                 <div class="card mb-5 bg-light p-4 rounded rounded-2">
                                     <div class="card-body p-0 mb-3">
-                                        <div class="d-flex my-3">
-                                            {% if post.author.profile_pic %}
-                                            <div id="profilePicDisplay" class="rounded rounded-5 ms-2 me-4 card-added-images"></div>
-                                            {% elif post.author.avatar %}
-                                            <img src="{{ post.author.avatar(128) }}" alt="" class="rounded rounded-5 ms-2 card-added-images">
-                                            {% else %}
-                                            <img src="/static/images/halong3.jpg" alt="" class="rounded rounded-5 me-4 card-added-images">
-                                            {% endif %}
-                                            <div class="d-flex flex-column">
-                                                <form action="{{url_for('remove_bucket', id=post.id)}}", method="post">
-                                                    {{form.hidden_tag()}}
-                                                    {{form.submit(class_='btn btn-danger', value='Remove')}}
-                                                </form>
-                                                <h5 class="card-title">{{post.author.firstName}} {{post.author.lastName}}</h5>
-                                                <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
-                                            </div>
+                                        <div class="d-flex justify-content-right">
+                                            <a href="{{url_for('remove_bucket', id=post.id)}}" class="ms-auto">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </a>
                                         </div>
-                                        <p class="card-text">{{post.body}}</p>
+                                        <div class="d-flex my-3 align-items-center">
+                                            <a href="{{url_for('profile', username=post.author.username)}}" class="text-decoration-none">
+                                            {% if post.author.profile_pic %}
+                                            <img src="/static/images/profile/{{post.author.profile_pic}}" class="ms-2 me-2 card-added-images">
+                                            {% elif post.author.avatar %}
+                                            <img src="{{ post.author.avatar(128) }}" alt="" class="ms-2 me-2 card-added-images">
+                                            {% else %}
+                                            <img src="/static/images/halong3.jpg" alt="" class="me-2 card-added-images">
+                                            {% endif %}
+                                            </a>
+                                            <a href="{{url_for('profile', username=post.author.username)}}" class="text-decoration-none">
+                                                <div class="d-flex flex-column ps-2">
+                                                    <a href="{{url_for('profile', username=post.author.username)}}" class="text-decoration-none">
+                                                        <h6 class="card-title text-black">{{post.author.firstName}} {{post.author.lastName}}</h6>
+                                                    </a>
+                                                    <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
+                                                </div>
+                                            
+                                        </div>
                                     </div>
                                     <a href="{{url_for('post', id=post.id)}}">
-                                        <img src="/static/images/posts/{{post.image}}" alt="" class="card-img-top">
+                                        <div class="{{post.id + 1}}" style="height: 300px; width: 100%; background: url('/static/images/posts/{{post.image}}') no-repeat center center/cover">
+                                        </div>
                                         <p class="btn btn-danger rounded rounded-0 rounded-bottom w-100">See Post</p>
                                     </a>
                                 </div>

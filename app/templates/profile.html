@@ -22,51 +22,49 @@
         <section id="profileHead" class="mt-5 pb-5">
             <div class="container-lg">
                 <div class="row">
-                    <div class="col d-flex justify-content-center">
-                        {% if user.cover_pic %}
-                        <div id="coverPicDisplay"></div>
-                        {% else %}
-                        <div id="coverDefaultDisplay"></div>
-                        {% endif %}
-                    </div>
+                    
                 </div>
-                <div class="row negativeRow shadow-sm pb-3">
+                <div class="row shadow-sm pb-3 pt-5">
                     <div class="col-lg-6 d-flex align-items-end justify-content-center ps-5">
                         {% if current_user.profile_pic %}
-                        <div id="profilePicDisplay" class="rounded rounded-5 ms-2 me-4"></div>
+                            <div class="me-3" style="background: url('/static/images/profile/{{current_user.profile_pic}}') no-repeat center center/cover; height: 200px; width:200px; border-radius: 50%; border: 5px solid white;"></div>
+                        {% elif current_user.avatar %}
+                            <div class="me-3" style="background: url('{{current_user.avatar}}') no-repeat center center/cover; height: 200px; width:200px; border-radius: 50%; border: 5px solid white;"></div>                        
                         {% else %}
-                        <img src="{{ current_user.avatar(128) }}" alt="" class="rounded rounded-5 ms-2">
+                        <div class="me-3" style="background: url('/static/images/mountain.jpg') no-repeat center center/cover; height: 200px; width:200px; border-radius: 50%; border: 5px solid white;"></div>     
+                            <img src="/static/images/mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
                         {% endif %}
-                        <div class="pb-3">
+                        
+                        <div class="pb-3 mt-3">
                             <h3>{{ user.firstName }} {{ user.lastName }}</h4>
                                 {% if user.caption %}<h6 class="text-muted">{{ user.caption }}</h6>{% endif %}
                                 {% if user.lastSeen %}<p>Last seen on: {{ user.lastSeen }}</p>{% endif %}
                                 <p>{{ user.followers.count() }} followers, {{ user.followed.count() }} following.</p>
-                                {% if user == current_user %}<p><a href="{{url_for('settings')}}">Edit your profile</a></p>
-                                {% elif not current_user.is_following(user) %}
-                                <p>
-                                    <form action="{{url_for('follow', username=user.username) }}" method="post">
-                                        {{form.hidden_tag()}}
-                                        {{form.submit(value='Follow', class_='btn btn-danger text-light')}}
-                                    </form>
-                                </p>
-                                {% else %}
-                                <p>
-                                    <form action="{{url_for('unfollow', username=user.username) }}" method="post">
-                                        {{form.hidden_tag()}}
-                                        {{form.submit(value='Unfollow', class_='btn btn-danger text-light')}}
-                                    </form>
-                                </p>
-                                {%endif%}
                         </div>
                     </div>
                     <div class="col-lg-4 d-flex align-items-end justify-content-end pb-3">
-                        <button class="btn btn-danger me-3">
-                            <a href="{{url_for('home')}}" class="text-light text-decoration-none">Bucket</a>
+                        <button class="btn btn-danger me-1">
+                            <a href="{{url_for('bucket', username=user.username)}}" class="text-light text-decoration-none">Bucket</a>
                         </button>
-                        <button class="btn btn-danger ms-3">
-                            <a href="{{url_for('settings')}}" class="text-light text-decoration-none">Settings</a>
+                        {% if current_user == user %}
+                        <button class="btn btn-danger me-1">
+                            <a href="{{url_for('settings')}}" class="text-light text-decoration-none">Edit Profile</a>
                         </button>
+                        {% elif not current_user.is_following(user) %}
+                            <p>
+                                <form action="{{url_for('follow', username=user.username) }}" method="post">
+                                    {{form.hidden_tag()}}
+                                    {{form.submit(value='Follow', class_='btn btn-danger text-light')}}
+                                </form>
+                            </p>
+                        {% else %}
+                            <p>
+                                <form action="{{url_for('unfollow', username=user.username) }}" method="post">
+                                    {{form.hidden_tag()}}
+                                    {{form.submit(value='Unfollow', class_='btn btn-danger text-light')}}
+                                </form>
+                            </p>
+                        {%endif%}
                     </div>
                 </div>
             </div>
@@ -78,8 +76,7 @@
                 <h1 class="fw-light">Your Posts</h1>
                 <p class="lead text-muted">Browse through your posts and remind yourself of the places you have been.</p>
                 <p>
-                  <a href="#" class="btn btn-danger my-2">Bucket</a>
-                  <a href="#" class="btn btn-secondary my-2">Message</a>
+                  <a href="{{url_for('bucket', username=user.username)}}" class="btn btn-danger btn-lg my-2">View {{user.firstName}}'s Bucket List</a>
                 </p>
               </div>
             </div>
@@ -93,16 +90,8 @@
                     <div class="col">
                         <a href="{{url_for('post', id=post.id)}}">
                             <div class="card shadow-sm">
-                                <img src="/static/images/posts/{{post.image}}" alt="" class="card-image-top cardFeature">
-                    
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        {{post.body}}
-                                    </p>
-                                    <p class="card-text">
-                                        {{post.timestamp}}
-                                    </p>
-                                </div>                        
+                                <div class="{{post.id + 1}}" style="height: 300px; width: 100%; background: url('/static/images/posts/{{post.image}}') no-repeat center center/cover">
+                                </div>                     
                             </div>
                         </a>
                     </div>

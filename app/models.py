@@ -143,6 +143,9 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}, {}, {}>'.format(self.body, self.image, self.comments)
 
+    def count_bucket_list(self, post):
+        return post.bucketer_list.count()
+
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String)
