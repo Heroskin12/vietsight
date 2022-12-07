@@ -39,6 +39,13 @@ class UploadForm(FlaskForm):
     comments_allowed = BooleanField('Allow Comments')
     submit = SubmitField('Upload')
 
+class EditPostForm(FlaskForm):
+    description = TextAreaField('Describe the Post', validators=[DataRequired(), Length(min=1, max=500)])
+    location = StringField('Where is this place?', validators=[DataRequired()])
+    directions = TextAreaField('How do you get to this place?', validators=[DataRequired(), Length(min=1, max=500)])
+    comments_allowed = BooleanField('Allow Comments')
+    submit = SubmitField('Upload')
+
 class CaptionForm(FlaskForm):
     new_caption = TextAreaField('Caption', validators=[DataRequired()])
     submit = SubmitField('Confirm Change')
@@ -52,9 +59,10 @@ class CoverForm(FlaskForm):
     submit = SubmitField('Change Cover Photo')
 
 class PasswordForm(FlaskForm):
-    oldPassword = PasswordField('Enter current password', validators=[FileRequired()])
-    newPassword = PasswordField('Enter new password', validators=[FileRequired()])
-    confirmPassword = PasswordField('Confirm new password', validators=[FileRequired()])
+    oldPassword = PasswordField('Enter current password', validators=[DataRequired()])
+    newPassword = PasswordField('Enter new password', validators=[DataRequired()])
+    confirmPassword = PasswordField('Confirm new password', validators=[DataRequired()])
+    submit = SubmitField('Confirm Change')
 
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])

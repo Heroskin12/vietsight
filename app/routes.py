@@ -5,7 +5,7 @@ import imghdr
 import os
 from app import app, db
 from app.email import send_password_reset_email
-from app.forms import LoginForm, RegisterForm, UploadForm, CaptionForm, ProfileForm, CoverForm, PasswordForm, ResetPasswordRequestForm, ResetPasswordForm, EmptyForm, BucketForm, CommentForm
+from app.forms import LoginForm, RegisterForm, UploadForm, CaptionForm, ProfileForm, CoverForm, PasswordForm, ResetPasswordRequestForm, ResetPasswordForm, EmptyForm, BucketForm, CommentForm, EditPostForm
 from app.models import User, Post, Comment
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
@@ -306,8 +306,25 @@ def settings():
             db.session.commit()
             return redirect(url_for('profile', username = current_user.username))
 
+    if passwordForm.validate_on_submit():
+        print("Form validated.")
+        oldPassword = passwordForm.oldPassword.data
+        newPassword = passwordForm.newPassword.data
+        confirmPassword = passwordForm.confirmPassword.data
 
-    return render_template('settings.html', title="Change Settings", form=form, profileForm=profileForm, coverForm=coverForm)
+        if not current_user.check_password(oldPassword):
+            flash("Error. Old password is incorrect.")
+        elif newPassword != confirmPassword:
+            flash("Error. The new password and confirm password fields do not match.")
+        else:
+            current_user.set_password(newPassword)
+            db.session.commit()
+            flash("Password Changed Successfully.")
+            return redirect(url_for('profile', username=current_user.username))
+
+
+
+    return render_template('settings.html', title="Change Settings", form=form, profileForm=profileForm, coverForm=coverForm, passwordForm=passwordForm)
 
 @app.route('/follow/<username>', methods=["POST"])
 @login_required
@@ -490,7 +507,35 @@ def post(id):
     bucket = BucketForm()
     empty = EmptyForm()
     post = Post.query.filter_by(id=id).first()
-    print(post)
     return render_template('post.html', post=post, commentForm=commentForm, BucketForm=bucket, empty=empty)
+
+
+@app.route('/edit_post/<id>', methods=["GET", "POST"])
+@login_required
+def edit_post(id):
+
+    form = EditPostForm()
+    post = Post.query.filter_by(id=id).first()
+    print('Boo')
+
+    if form.validate_on_submit():
+        print('Boo Boo')
+        if current_user != post.author:
+            flash("Error. This is not your post.")
+            return redirect(url_for('post'))
+        elif post is None:
+            flash("Error. Post doesn't exist.")
+            return redirect(url_for('home'))
+        else:
+            post.body = form.description.data
+            post.location = form.location.data
+            post.directions = form.directions.data
+            post.comments_allowed = form.comments_allowed.data
+            
+            db.session.commit()
+            return redirect(url_for('post', id=post.id))
+
+    return render_template('edit_post.html', form=form, post=post)
+
 
 

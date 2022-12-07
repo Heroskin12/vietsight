@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section id="uploadForm mt-5">
+        <div class="container d-flex flex-column justify-content-center align-items-center pt-5">
+            <div class="row pt-5">
+                <div class="col">
+                    <div class="logo-area text-center pt-5">
+                        <h3><span class="text-danger">Viet</span>Sight</h3>
+                        <h4>Edit Your Post</h4>
+                        <p class="lead">Change some details about your post.</p>
+
+                    </div>
+
+                    <!-- Upload Form -->
+                    <form action="{{url_for('edit_post', id=post.id)}}", method="post", novalidate>
+                        {{form.hidden_tag()}}
+                        
+                        <div class="mb-3">
+                            <p>Images cannot be changed. Please create a new post or delete this one to make this type of change.</p>
+                        </div>
+
+                        <div class="mb-3">
+                            {{form.description.label(class_='form-label')}} <br>
+                            {{form.description(class_='form-control', id='FormControlTextArea', rows='3')}}
+                            <div id="whereHelpBlock" class="form-text">
+                                This will appear underneath your image. Describe the place, what you did there, when you visited it or any other information people might find useful.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{form.location.label(class_='form-label')}} <br>
+                            {{form.location(class_='form-control')}}
+                            <div id="whereHelpBlock" class="form-text">
+                                Give as specific an address as possible. If you're not sure, type in the town or city.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{form.directions.label(class_='form-label')}} <br>
+                            {{form.directions(class_='form-control', id='FormControlTextArea', rows='3')}}
+                            <div id="whereHelpBlock" class="form-text">
+                                Provide any information that will help others find this place. For example, how does the building look or are there any notable features nearby.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{form.comments_allowed(class_='form-check-input')}}
+                            {{form.comments_allowed.label(class_='form-check-label')}} 
+                        </div>
+
+                        
+
+                        {{form.submit(class_='btn btn-danger text-light w-100 mt-2 mb-4')}}
+                    </form>
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
