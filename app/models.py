@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from hashlib import md5
 from time import time
+from uuid import uuid4
 from werkzeug.security import check_password_hash, generate_password_hash
 import jwt
 
@@ -25,8 +26,12 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    # Original Filename
     profile_pic = db.Column(db.String)
+    # Unique filename (to avoid duplicates)
+    unique_profile_pic = db.Column(db.String)
     cover_pic = db.Column(db.String)
+    unique_cover_pic = db.Column(db.String)
     caption = db.Column(db.String(256))
     lastSeen = db.Column(db.DateTime, default = datetime.utcnow)
 
@@ -54,6 +59,11 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User {} {}>'.format(self.firstName, self.lastName)
+
+    # Generate unique strings for image filenames.
+    def make_unique(string):
+        ident = uuid4().__str__()
+        return f"{ident}-{string}"
 
     # Sets the password on registration.
     def set_password(self, password):
@@ -132,6 +142,7 @@ class User(UserMixin, db.Model):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String)
+    unique_image = db.Column(db.String)
     body = db.Column(db.String)    
     location = db.Column(db.String)
     directions = db.Column(db.String)

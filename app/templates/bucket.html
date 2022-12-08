@@ -37,7 +37,7 @@
                                         <div class="d-flex my-3 align-items-center">
                                             <a href="{{url_for('profile', username=post.author.username)}}" class="text-decoration-none">
                                             {% if post.author.profile_pic %}
-                                            <img src="/static/images/profile/{{post.author.profile_pic}}" class="ms-2 me-2 card-added-images">
+                                            <img src="/static/images/profile/{{post.author.unique_profile_pic}}" class="ms-2 me-2 card-added-images">
                                             {% elif post.author.avatar %}
                                             <img src="{{ post.author.avatar(128) }}" alt="" class="ms-2 me-2 card-added-images">
                                             {% else %}
@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                     <a href="{{url_for('post', id=post.id)}}">
-                                        <div class="{{post.id + 1}}" style="height: 300px; width: 100%; background: url('/static/images/posts/{{post.image}}') no-repeat center center/cover">
+                                        <div class="{{post.id + 1}}" style="height: 300px; width: 100%; background: url('/static/images/posts/{{post.unique_image}}') no-repeat center center/cover">
                                         </div>
                                         <p class="btn btn-danger rounded rounded-0 rounded-bottom w-100">See Post</p>
                                     </a>

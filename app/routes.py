@@ -209,23 +209,21 @@ def profile(username):
 def upload():
     form = UploadForm()    
     if form.validate_on_submit():
-        print('Hello!')
-        print(form.image.data, form.description.data, form.location.data, form.directions.data, form.comments_allowed.data)
         uploaded_file = request.files['image']
         filename = secure_filename(uploaded_file.filename)
-        print("Hello" + filename)
 
         if filename != '':
             file_ext = os.path.splitext(filename)[1]
-            print("Goodbye" + file_ext)
             if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
                 file_ext != validate_image(uploaded_file.stream):
                 flash("Image type not valid. Must be jpg, gif or png. Please try again.")
                 return redirect(url_for('upload'))
-            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+            unique = current_user.make_unique()
+            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], unique))
 
             post = Post( \
                 image = filename,
+                unique_image = unique,
                 body = form.description.data,
                 location = form.location.data,
                 directions = form.directions.data,
@@ -239,7 +237,6 @@ def upload():
         
         return redirect(url_for('login'))
 
-    print('This is a get request')
     return render_template('upload.html', title='Upload a Post', form=form)
 
 @app.route('/delete_post/<id>', methods=["POST"])
@@ -249,6 +246,11 @@ def delete_post(id):
 
     if form.validate_on_submit():
         post = Post.query.filter_by(id=id).first()
+
+        if post.unique_image:
+            os.remove(os.path.join(app.config['UPLOAD_PATH'], post.unique_image))
+        else:
+            os.remove(os.path.join(app.config['UPLOAD_PATH'], post.image))
         db.session.delete(post)
         db.session.commit()
         flash('Post Deleted.')
@@ -268,7 +270,6 @@ def settings():
     passwordForm = PasswordForm()
 
     if form.validate_on_submit():
-        print('validated')
         newCaption = form.new_caption.data
         current_user.caption = newCaption
         db.session.commit()
@@ -284,9 +285,12 @@ def settings():
                 file_ext != validate_image(uploaded_file.stream):
                 flash("Image type not valid. Must be jpg, gif or png. Please try again.")
                 return redirect(url_for('settings'))
-            uploaded_file.save(os.path.join(app.config['PROFILE_PATH'], filename))
-
+            if current_user.unique_profile_pic != None:
+                os.remove(os.path.join(app.config['PROFILE_PATH'], current_user.unique_profile_pic))
             current_user.profile_pic = filename
+            current_user.unique_profile_pic = current_user.make_unique()
+            uploaded_file.save(os.path.join(app.config['PROFILE_PATH'], current_user.unique_profile_pic))
+            
             db.session.commit()
             return redirect(url_for('profile', username = current_user.username))
 
@@ -300,9 +304,11 @@ def settings():
                 file_ext != validate_image(uploaded_file.stream):
                 flash("Image type not valid. Must be jpg, gif or png. Please try again.")
                 return redirect(url_for('settings'))
-            uploaded_file.save(os.path.join(app.config['COVER_PATH'], filename))
-
+            if current_user.unique_cover_pic:
+                os.remove(os.path.join(app.config['COVER_PATH'], current_user.unique_cover_pic))
             current_user.cover_pic = filename
+            current_user.unique_cover_pic = current_user.make_unique()
+            uploaded_file.save(os.path.join(app.config['COVER_PATH'], current_user.unique_cover_pic))
             db.session.commit()
             return redirect(url_for('profile', username = current_user.username))
 
@@ -344,6 +350,9 @@ def follow(username):
             flash('You cannot follow yourself!')
             return redirect(url_for('profile', username=username))
 
+        if current_user.is_following(user):
+            flash('Error. You are already following this person.')
+
         # Call the follow function.
         current_user.follow(user)
         db.session.commit()
@@ -370,6 +379,11 @@ def unfollow(username):
             flash('You cannot unfollow yourself!')
             return redirect(url_for('profile', username=username))
 
+        # Check that the user doesn't already follow this person.
+        if not current_user.is_following(user):
+            flash('Error. You are not currently following this person.')
+            return redirect('profile', username=username)
+
         # Call the follow function.
         current_user.unfollow(user)
         db.session.commit()
@@ -390,6 +404,7 @@ def bucket(username):
     page = request.args.get('page', 1, type=int)
 
     # Get all posts and divide into page of a quantity defined in POSTS_PER_PAGE.
+    # Can I organize these by most recently added?
     posts = user.bucket_list.order_by(Post.timestamp.desc()).paginate(
         page=page, per_page=app.config['POSTS_PER_PAGE'], error_out=False)
 
@@ -426,14 +441,15 @@ def add_bucket(id):
         flash('You have added this post to your bucket list!')
         return redirect(url_for('bucket', username=current_user.username))
     else:
-        return redirect(url_for('home'))
+        flash("Error. Could not add post to bucket list.")
+        return redirect(url_for('post', id=id))
 
 @app.route('/remove_bucket/<id>', methods=["POST"])
 @login_required
 def remove_bucket(id):
     form = BucketForm()
     if form.validate_on_submit():
-        # Get an object of the post you want to unfollow.
+    # Get an object of the post you want to unfollow.
         post = Post.query.filter_by(id=id).first()
 
         # Check that the user exists.
@@ -441,13 +457,14 @@ def remove_bucket(id):
             flash('Post not found.')
             return redirect(url_for('home'))
 
-        # Call the unfollow function.
+        # Call the remove from bucket function.
         current_user.remove_from_bucket(post)
         db.session.commit()
         flash('You have removed this post from your bucket list.')
         return redirect(url_for('bucket', username=current_user.username))
     else:
-        return redirect(url_for('home'))
+        flash("Error. Could not remove post from your bucket list.")
+        return redirect(url_for('bucket', username=current_user.username))
 
 @app.route('/add_comment/<id>', methods=["POST"])
 @login_required
@@ -455,7 +472,6 @@ def add_comment(id):
     form = CommentForm()
 
     if form.validate_on_submit():
-        print(form.body.data)
         comment = Comment(
             body = form.body.data,
             author = current_user,
@@ -463,26 +479,25 @@ def add_comment(id):
 
         db.session.add(comment)
         db.session.commit()
-
-        return redirect(url_for('home'))
+        return redirect(url_for('post', id=id))
     
     flash("Error. Please try again.")
-    return redirect(url_for('home'))
+    return redirect(url_for('post', id=id))
 
 @app.route('/delete_comment/<id>', methods=["POST"])
 @login_required
 def delete_comment(id):
-    form = EmptyForm()
 
-    if form.validate_on_submit():
-        comment = Comment.query.filter_by(id=id).first()
+
+    comment = Comment.query.filter_by(id=id).first()
+    if comment.author == current_user:
         db.session.delete(comment)
         db.session.commit()
         flash("Comment successfully deleted!")
-        return redirect(url_for('home'))
+        return redirect(url_for('post', id=id))
     
-    flash("Error. Please try again!")
-    return redirect(url_for('home'))
+    flash("Error. Couldn't delete comment. Please try again!")
+    return redirect(url_for('post', id=id))
 
 @app.route('/edit_comment/<id>', methods=["POST"])
 @login_required
@@ -491,13 +506,14 @@ def edit_comment(id):
 
     if form.validate_on_submit():
         comment = Comment.query.filter_by(id=id).first()
-        comment.body = form.body.data
-        db.session.commit()
-        flash("Comment successfully edited.")
-        return redirect(url_for('home'))
+        if comment.author == current_user:
+            comment.body = form.body.data
+            db.session.commit()
+            flash("Comment successfully edited.")
+            return redirect(url_for('post', id=comment.post_id))
 
     flash("Error. Please try again.")
-    return redirect(url_for('home'))
+    return redirect(url_for('post', id=id))
 
 
 @app.route('/post/<id>', methods=["GET"])
