@@ -38,7 +38,7 @@
                         <div class="pb-3 mt-3">
                             <h3>{{ user.firstName }} {{ user.lastName }}</h4>
                                 {% if user.caption %}<h6 class="text-muted">{{ user.caption }}</h6>{% endif %}
-                                {% if user.lastSeen %}<p>Last seen on: {{ user.lastSeen }}</p>{% endif %}
+                                {% if user.lastSeen %}<p>Last seen <span class="text-danger text-decoration-underline">{{ moment(user.lastSeen).fromNow() }}</span></p>{% endif %}
                                 <p>{{ user.followers.count() }} followers, {{ user.followed.count() }} following.</p>
                         </div>
                     </div>

@@ -82,7 +82,7 @@
                         {% endif %}
 
                     </div>
-                    <h6 class="card-subtitle mb-4 text-muted">{{post.timestamp}}</h6>
+                    <h6 class="card-subtitle mb-4 text-muted">{{moment(post.timestamp).format('LLL')}}</h6>
                     <h5 class="card-title text-danger mb-2">What is this place?</h5>
                     <p class="card-text border-bottom border-danger pb-3">{{post.body}}</p>
                     <h5 class="card-title text-danger mb-2">How to get there?</h5>
@@ -117,7 +117,7 @@
                                                         {{comment.body}} 
                                                     </p>
                                                     <a href="#" class="text-danger">See more</a>                                                        
-                                                    <p class="text-muted mt-1">{{comment.timestamp}}</p>
+                                                    <p class="text-muted mt-1">{{moment(comment.timestamp).format('LLL')}}</p>
                                                     {% if comment.author == current_user %}
                                                     <div class="d-flex">
                                                         <button class="btn bg-none text-danger p-0 pe-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{comment.id}}" aria-expanded="false" aria-controls="collapseExample{{comment.id}}">

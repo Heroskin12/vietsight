@@ -62,7 +62,7 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <h6 class="card-subtitle mb-2 text-muted ps-2">{{post.timestamp}}</h6>
+                                    <h6 class="card-subtitle mb-2 text-muted ps-2">{{moment(post.timestamp).format('LLL')}}</h6>
                                     <p class="card-text ps-2">{{post.body}} <a href="{{url_for('post', id=post.id)}}" class="text-danger d-block">See more</a></p>
                                 </div>
                                 <a href="{{url_for('post', id=post.id)}}"><img src="/static/images/posts/{{post.unique_image}}" alt="" class="card-img-top"></a>
@@ -116,7 +116,7 @@
                                                         {{comment.body}} 
                                                     </p>
                                                     <a href="#" class="text-danger">See more</a>                                                        
-                                                    <p class="text-muted mt-1">{{comment.timestamp}}</p>
+                                                    <p class="text-muted mt-1">{{ moment(comment.timestamp).format('LLL') }}</p>
                                                     {% if comment.author == current_user %}
                                                     <div class="d-flex">
                                                         <button class="btn bg-none text-danger p-0 pe-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{comment.id}}" aria-expanded="false" aria-controls="collapseExample{{comment.id}}">

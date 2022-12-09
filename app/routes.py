@@ -201,7 +201,7 @@ def profile(username):
     # Form for following someone.
     form = EmptyForm()
     return render_template('profile.html', user=user, posts=posts.items,
-                           next_url=next_url, prev_url=prev_url, form=form)
+                           next_url=next_url, prev_url=prev_url, form=form, title="Profile")
 
                            
 @app.route('/upload', methods=["GET", "POST"])
@@ -233,7 +233,7 @@ def upload():
             db.session.add(post)
             db.session.commit()
             flash("Your post is now live!")
-            return redirect(url_for('profile', username=current_user.username))
+            return redirect(url_for('profile', username=current_user.username, title="Profile"))
         
         return redirect(url_for('login'))
 
