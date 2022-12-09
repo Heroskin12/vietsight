@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/main.css">
-    {{ moment.include_moment()}}
+    {{ moment.lang(g.locale) }}
+    {{ moment.include_moment() }}
     {% if title %}
 	<title>{{ title }} - VietSight</title>
 	{% else %}
@@ -127,7 +128,24 @@
         {% block content %} {% endblock %}
 
     </main>
-
+    <script src="{{ url_for('static', filename='jquery.js') }}"></script>
+    <script>
+        function translate(sourceElem, destElem, sourceLang, destLang) {
+            $(destElem).html('<img src="/static/images/loading.gif">');
+            $(destElem).addClass("resize")
+            $.post('/translate', {
+                text: $(sourceElem).text(),
+                source_language: sourceLang,
+                dest_language: destLang
+            }).done(function(response) {
+                $(destElem).text(response['text'])
+                $(destElem).removeClass("resize")
+            }).fail(function() {
+                $(destElem).text("{{ _('Error: Could not contact server.') }}");
+            });
+        }
+    
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/main.js"></script>
     <script src="https://kit.fontawesome.com/5ed879b221.js" crossorigin="anonymous"></script>

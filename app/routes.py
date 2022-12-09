@@ -1,12 +1,15 @@
 from datetime import datetime
-from flask import abort, flash, redirect, render_template, request, url_for
+from flask import abort, flash, redirect, render_template, request, url_for, g, jsonify
+from app.translate import translate
 from flask_login import current_user, login_user, logout_user, login_required
+from flask_babel import get_locale
 import imghdr
 import os
 from app import app, db
 from app.email import send_password_reset_email
 from app.forms import LoginForm, RegisterForm, UploadForm, CaptionForm, ProfileForm, CoverForm, PasswordForm, ResetPasswordRequestForm, ResetPasswordForm, EmptyForm, BucketForm, CommentForm, EditPostForm
 from app.models import User, Post, Comment
+from langdetect import detect, LangDetectException
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 
@@ -16,6 +19,7 @@ def before_request():
     if current_user.is_authenticated:
         current_user.lastSeen = datetime.utcnow()
         db.session.commit()
+        g.locale = str(get_locale())
     
 # A function to validate the file type of an image.
 def validate_image(stream):
@@ -221,12 +225,19 @@ def upload():
             unique = current_user.make_unique()
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], unique))
 
+            # Try detect language of post.
+            try:
+                language = detect(form.description.data)
+            except LangDetectException:
+                language = ''
+
             post = Post( \
                 image = filename,
                 unique_image = unique,
                 body = form.description.data,
                 location = form.location.data,
                 directions = form.directions.data,
+                language = language,
                 comments_allowed = form.comments_allowed.data,
                 author = current_user
                 )
@@ -472,9 +483,14 @@ def add_comment(id):
     form = CommentForm()
 
     if form.validate_on_submit():
+        try:
+            language = detect(form.body.data)
+        except LangDetectException:
+            language = ''
         comment = Comment(
             body = form.body.data,
             author = current_user,
+            language=language,
             post = Post.query.filter_by(id=id).first())
 
         db.session.add(comment)
@@ -507,6 +523,10 @@ def edit_comment(id):
     if form.validate_on_submit():
         comment = Comment.query.filter_by(id=id).first()
         if comment.author == current_user:
+            try:
+                language = detect(form.body.data)
+            except LangDetectException:
+                language = ''
             comment.body = form.body.data
             db.session.commit()
             flash("Comment successfully edited.")
@@ -543,15 +563,27 @@ def edit_post(id):
             flash("Error. Post doesn't exist.")
             return redirect(url_for('home'))
         else:
+            try:
+                language = detect(form.description.data)
+            except LangDetectException:
+                language = ''
             post.body = form.description.data
             post.location = form.location.data
             post.directions = form.directions.data
+            post.language = language
             post.comments_allowed = form.comments_allowed.data
             
             db.session.commit()
             return redirect(url_for('post', id=post.id))
 
     return render_template('edit_post.html', form=form, post=post)
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+    return jsonify({'text': translate(request.form['text'],
+                                      request.form['source_language'],
+                                      request.form['dest_language'])})
 
 
 

@@ -90,6 +90,11 @@ i {
 	color: #DC3545 !important;
 }
 
+.resize img {
+	height: 20px;
+	width: 20px;
+}
+
 
 
 

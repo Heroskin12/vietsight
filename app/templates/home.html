@@ -63,7 +63,18 @@
                                         </div>
                                     </a>
                                     <h6 class="card-subtitle mb-2 text-muted ps-2">{{moment(post.timestamp).format('LLL')}}</h6>
-                                    <p class="card-text ps-2">{{post.body}} <a href="{{url_for('post', id=post.id)}}" class="text-danger d-block">See more</a></p>
+                                    <p class="card-text ps-2" id="post{{post.id}}">{{post.body}}</p>
+                                    <a href="{{url_for('post', id=post.id)}}" class="text-danger d-block">See more</a>
+                                    {% if post.language and post.language != g.locale %}
+                                        <br><br>
+                                        <span id="translation{{post.id}}">
+                                            <a href="javascript:translate(
+                                                '#post{{ post.id }}',
+                                                '#translation{{ post.id }}',
+                                                '{{ post.language }}',
+                                                '{{ g.locale }}');">Translate</a>
+                                        </span>
+                                    {% endif %}
                                 </div>
                                 <a href="{{url_for('post', id=post.id)}}"><img src="/static/images/posts/{{post.unique_image}}" alt="" class="card-img-top"></a>
                                 <div class="d-flex mt-3 align-items-center">
@@ -112,10 +123,20 @@
                                                 <div class="d-flex flex-column ms-3">
                                                     <h6 class="text-black mb-2">{{comment.author.firstName}} {{comment.author.lastName}}</h6>
                                                     
-                                                    <p class="lead">
+                                                    <p class="lead" id="comment{{comment.id}}">
                                                         {{comment.body}} 
                                                     </p>
                                                     <a href="#" class="text-danger">See more</a>                                                        
+                                                    {% if comment.language and comment.language != g.locale %}
+                                                        <br><br>
+                                                        <span id="translation{{comment.id}}">
+                                                            <a href="javascript:translate(
+                                                                '#comment{{ comment.id }}',
+                                                                '#translation{{ comment.id }}',
+                                                                '{{ comment.language }}',
+                                                                '{{ g.locale }}');">Translate</a>
+                                                        </span>
+                                                    {% endif %}
                                                     <p class="text-muted mt-1">{{ moment(comment.timestamp).format('LLL') }}</p>
                                                     {% if comment.author == current_user %}
                                                     <div class="d-flex">
