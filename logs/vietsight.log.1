@@ -1,0 +1,115 @@
+2022-12-10 21:47:48,015 ERROR: Exception on /auth/logout [GET] [in /home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/heroskin12/vietsight/app/auth/routes.py", line 52, in logout
+    return redirect(url_for('auth.landing'))
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/helpers.py", line 256, in url_for
+    return current_app.url_for(
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 2031, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 2020, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/werkzeug/routing/map.py", line 917, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'auth.landing'. Did you mean 'main.landing' instead?
+2022-12-10 21:48:16,056 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 21:53:02,241 ERROR: Exception on /translate [POST] [in /home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/heroskin12/vietsight/app/main/routes.py", line 480, in translate_text
+    return jsonify({'text': translate(request.form['text'],
+  File "/home/heroskin12/vietsight/app/translate.py", line 11, in translate
+    'Ocp-Apim-Subscription-Key': app.config['MS_TRANSLATOR_KEY'],
+NameError: name 'app' is not defined
+2022-12-10 21:57:22,394 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 21:58:15,158 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 21:58:40,192 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 21:59:11,751 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:00:23,632 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:01:58,212 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:03:14,780 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:04:35,523 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:08:34,167 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:08:49,774 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:09:29,023 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:11:29,728 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:11:57,593 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:12:40,348 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:22:47,661 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:31:25,030 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 22:31:29,440 ERROR: Exception on /auth/login [GET] [in /home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/heroskin12/vietsight/app/auth/routes.py", line 26, in login
+    form = LoginForm()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/wtforms/form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_wtf/form.py", line 73, in __init__
+    super().__init__(formdata=formdata, **kwargs)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/wtforms/form.py", line 286, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/wtforms/form.py", line 127, in process
+    field.process(formdata, data, extra_filters=field_extra_filters)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/wtforms/csrf/core.py", line 44, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_wtf/csrf.py", line 147, in generate_csrf_token
+    return generate_csrf(
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_wtf/csrf.py", line 36, in generate_csrf
+    secret_key = _get_config(
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_wtf/csrf.py", line 136, in _get_config
+    raise RuntimeError(message)
+RuntimeError: A secret key is required to use CSRF.
+2022-12-10 22:32:16,430 ERROR: Exception on /auth/register [GET] [in /home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/heroskin12/vietsight/app/auth/routes.py", line 61, in register
+    form = RegisterForm()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/wtforms/form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_wtf/form.py", line 73, in __init__
+    super().__init__(formdata=formdata, **kwargs)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/wtforms/form.py", line 286, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/wtforms/form.py", line 127, in process
+    field.process(formdata, data, extra_filters=field_extra_filters)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/wtforms/csrf/core.py", line 44, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_wtf/csrf.py", line 147, in generate_csrf_token
+    return generate_csrf(
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_wtf/csrf.py", line 36, in generate_csrf
+    secret_key = _get_config(
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_wtf/csrf.py", line 136, in _get_config
+    raise RuntimeError(message)
+RuntimeError: A secret key is required to use CSRF.

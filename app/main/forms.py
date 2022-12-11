@@ -1,13 +1,8 @@
 from app.models import User
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import BooleanField, DateField, PasswordField, SelectField, StringField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
-
-
-
-
-
+from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
+from wtforms.validators import DataRequired, Length
 
 class UploadForm(FlaskForm):
     image = FileField('Upload an Image', validators=[FileRequired()])

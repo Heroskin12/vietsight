@@ -22,7 +22,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <!-- Logo -->
-                <a href="{{url_for('landing')}}" class="navbar-brand">
+                <a href="{{url_for('main.landing')}}" class="navbar-brand">
                     <span class="text-danger">Viet</span>Sight
                 </a>
     
@@ -34,9 +34,9 @@
     
                     <!-- Navigation Links -->
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a href="{{url_for('mission')}}" class="nav-link">Our Mission</a></li>
-                        <li class="nav-item"><a href="{{url_for('login')}}" class="nav-link">Login</a></li>
-                        <li class="nav-item"><a href="{{url_for('register')}}" class="nav-link active bg-danger text-light rounded-1 ms-2" id="regButton" aria-current="page">Register</a></li>
+                        <li class="nav-item"><a href="{{url_for('auth.mission')}}" class="nav-link">Our Mission</a></li>
+                        <li class="nav-item"><a href="{{url_for('auth.login')}}" class="nav-link">Login</a></li>
+                        <li class="nav-item"><a href="{{url_for('auth.register')}}" class="nav-link active bg-danger text-light rounded-1 ms-2" id="regButton" aria-current="page">Register</a></li>
                     </ul>
                 </div>
             </div>
@@ -47,12 +47,12 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top mb-5">
             <div class="container">
                 <!-- Logo -->
-                <a href="{{url_for('home')}}" class="navbar-brand">
+                <a href="{{url_for('main.home')}}" class="navbar-brand">
                     <span class="text-danger">Viet</span>Sight
                 </a>
     
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0 d-flex align-items-center d-lg-none" >
-                    <li class="nav-item ms-5"><a href="{{ url_for('profile', username=current_user.username) }}" class="nav-link">
+                    <li class="nav-item ms-5"><a href="{{ url_for('main.profile', username=current_user.username) }}" class="nav-link">
                         {{current_user.firstName}} {{current_user.lastName}}
                         {% if current_user.profile_pic %}
                         <img src="/static/images/profile/{{current_user.unique_profile_pic}}" alt="" class="rounded rounded-5 ms-2">
@@ -71,15 +71,15 @@
     
                     <!-- Navigation Links -->
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0 d-flex align-items-lg-center">
-                        <li class="nav-item"><a href="{{url_for('upload')}}" class="nav-link">Upload</a></li>
-                        <li class="nav-item"><a href="{{url_for('explore')}}" class="nav-link">Discover</a></li>
-                        <li class="nav-item"><a href="{{url_for('bucket', username=current_user.username)}}" class="nav-link active bg-danger text-light rounded-1 ms-2" aria-current="page" id="bucketLink">Bucket List</a></li>
-                        <li class="nav-item d-lg-none"><a href="{{url_for('settings')}}" class="nav-link">Settings</a></li>
-                        <li class="nav-item d-lg-none"><a href="{{url_for('logout')}}" class="nav-link">Logout</a></li>
+                        <li class="nav-item"><a href="{{url_for('main.upload')}}" class="nav-link">Upload</a></li>
+                        <li class="nav-item"><a href="{{url_for('main.explore')}}" class="nav-link">Discover</a></li>
+                        <li class="nav-item"><a href="{{url_for('main.bucket', username=current_user.username)}}" class="nav-link active bg-danger text-light rounded-1 ms-2" aria-current="page" id="bucketLink">Bucket List</a></li>
+                        <li class="nav-item d-lg-none"><a href="{{url_for('main.settings')}}" class="nav-link">Settings</a></li>
+                        <li class="nav-item d-lg-none"><a href="{{url_for('auth.logout')}}" class="nav-link">Logout</a></li>
                     </ul>
                 </div>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-lg-flex align-items-center" id="profileImage">
-                        <li class="nav-item ms-5"><a href="{{ url_for('profile', username=current_user.username) }}" class="nav-link">
+                        <li class="nav-item ms-5"><a href="{{ url_for('main.profile', username=current_user.username) }}" class="nav-link">
                             {{current_user.firstName}} {{current_user.lastName}}
                             {% if current_user.profile_pic %}
                             <img src="/static/images/profile/{{current_user.unique_profile_pic}}" alt="" class="rounded rounded-5 ms-2">
@@ -92,11 +92,11 @@
                               
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li class="nav-item"><a href="{{url_for('explore')}}" class="dropdown-item">Discover</a></li>
-                                <li><a class="dropdown-item" href="{{url_for('profile', username=current_user.username)}}">Profile</a></li>
-                                <li><a class="dropdown-item" href="{{url_for('settings')}}">Settings</a></li>
+                                <li class="nav-item"><a href="{{url_for('main.explore')}}" class="dropdown-item">Discover</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('main.profile', username=current_user.username)}}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('main.settings')}}">Settings</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('auth.logout')}}">Logout</a></li>
                             </ul>
                         </li>
                         

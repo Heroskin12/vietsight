@@ -19,9 +19,9 @@
                                     <h6 class="text-muted">People in your network...</h6><hr>
                                     <ul class="px-0">
                                         {% for user in followed_users %}
-                                        <li><a href="{{url_for('profile', username=user.username)}}">
+                                        <li><a href="{{url_for('main.profile', username=user.username)}}">
                                             {% if user.profile_pic %}
-                                            <img src="/static/images/profile/user.unique_profile_pic" alt="">
+                                            <img src="/static/images/profile/{{user.unique_profile_pic}}" alt="">
                                             {% elif user.avatar %}
                                                 <img src="{{user.avatar(64)}}" alt="">
                                             {% else %}
@@ -47,7 +47,7 @@
                             
                             <div class="card mb-5 bg-light p-4 rounded rounded-2">
                                 <div class="card-body p-0 mb-3">
-                                    <a href="{{url_for('profile', username = post.author.username)}}" class="text-decoration-none">
+                                    <a href="{{url_for('main.profile', username = post.author.username)}}" class="text-decoration-none">
                                         <div class="d-flex my-3">
                                             {% if post.author.profile_pic %}
                                             <img src="/static/images/profile/{{post.author.unique_profile_pic}}" alt="" class="card-added-images rounded rounded-5 me-3">
@@ -58,13 +58,13 @@
                                             {% endif %}
                                             <div class="d-flex flex-column">
                                                 <h5 class="card-title text-black">{{post.author.firstName}} {{post.author.lastName}}</h5>
-                                                <h6 class="card-subtitle mb-2 text-muted"><a href="{{url_for('bucket', username=post.author.username)}}" class="text-muted">View {{post.author.firstName}}'s Bucket List</a></h6>
+                                                <h6 class="card-subtitle mb-2 text-muted"><a href="{{url_for('main.bucket', username=post.author.username)}}" class="text-muted">View {{post.author.firstName}}'s Bucket List</a></h6>
                                             </div>
                                         </div>
                                     </a>
                                     <h6 class="card-subtitle mb-2 text-muted ps-2">{{moment(post.timestamp).format('LLL')}}</h6>
                                     <p class="card-text ps-2" id="post{{post.id}}">{{post.body}}</p>
-                                    <a href="{{url_for('post', id=post.id)}}" class="text-danger d-block">See more</a>
+                                    <a href="{{url_for('main.post', id=post.id)}}" class="text-danger d-block">See more</a>
                                     {% if post.language and post.language != g.locale %}
                                         <br><br>
                                         <span id="translation{{post.id}}">
@@ -76,18 +76,18 @@
                                         </span>
                                     {% endif %}
                                 </div>
-                                <a href="{{url_for('post', id=post.id)}}"><img src="/static/images/posts/{{post.unique_image}}" alt="" class="card-img-top"></a>
+                                <a href="{{url_for('main.post', id=post.id)}}"><img src="/static/images/posts/{{post.unique_image}}" alt="" class="card-img-top"></a>
                                 <div class="d-flex mt-3 align-items-center">
                                     <div class="pe-2 ms-2 mb-2">
                                         {% if current_user.in_bucket(post) %}
-                                        <form action="{{url_for('remove_bucket', id=post.id)}}" method="post">
+                                        <form action="{{url_for('main.remove_bucket', id=post.id)}}" method="post">
                                             {{BucketForm.hidden_tag()}}
                                             {{BucketForm.submit(class_='btn btn-danger text-light', value='Remove from Bucket')}}
                                         </form>
                                         
                                        
                                         {% else %}
-                                        <form action="{{url_for('add_bucket', id=post.id)}}" method="post">
+                                        <form action="{{url_for('main.add_bucket', id=post.id)}}" method="post">
                                             {{BucketForm.hidden_tag()}}
                                             {{BucketForm.submit(class_='btn btn-danger text-light', value='Add to Bucket')}}
                                         </form>
@@ -145,12 +145,12 @@
                                                         </button>
                                                         
                                                         <button class="btn bg-none text-danger p-0" type="button">
-                                                            <a href="{{url_for('delete_comment', id=comment.id)}}" class="text-danger text-decoration-none">Delete</a>
+                                                            <a href="{{url_for('main.delete_comment', id=comment.id)}}" class="text-danger text-decoration-none">Delete</a>
                                                         </button>
                                                     </div>
                                                     <div class="collapse" id="collapseExample{{comment.id}}">
                                                       <div class="card card-body bg-light">
-                                                        <form action="{{url_for('edit_comment', id=comment.id)}}" method="post">
+                                                        <form action="{{url_for('main.edit_comment', id=comment.id)}}" method="post">
                                                           {{commentForm.hidden_tag()}}
                                                           {{commentForm.body(class_='form-control', id=comment.id+3)}}
                                                           <script>document.getElementById('{{comment.id + 3}}').value="{{comment.body}}";</script>                                                            
@@ -159,7 +159,7 @@
                                                       </div>
                                                     </div>
                                                     {% else %}
-                                                    <a href="{{url_for('follow', username=comment.author.username)}}" class="text-danger text-decoration-none">Follow</a>                                                    
+                                                    <a href="{{url_for('main.follow', username=comment.author.username)}}" class="text-danger text-decoration-none">Follow</a>                                                    
                                                     {% endif %}                                                    
                                                 </div>                                                
                                             </div>

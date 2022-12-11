@@ -1,0 +1,109 @@
+2022-11-30 14:15:35,169 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 14:19:34,049 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 14:21:27,940 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 14:21:33,975 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 14:22:14,352 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 14:23:44,129 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 14:24:50,876 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 14:25:31,957 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 14:26:42,140 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 15:14:52,192 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 15:14:55,083 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 19:51:16,748 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 21:12:03,750 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 21:12:46,909 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 21:17:24,829 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 21:18:15,451 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 21:19:47,044 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 21:20:44,657 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 21:20:48,062 ERROR: Exception on /profile/Heroskin12 [GET] [in /home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/heroskin12/vietsight/app/routes.py", line 159, in profile
+    return render_template('profile.html', user=user, posts=posts, title="Profile", form=form)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/heroskin12/vietsight/app/templates/profile.html", line 67, in template
+    {% if not current_user.is_following(user) and user !== current_user %}
+jinja2.exceptions.TemplateSyntaxError: unexpected '='
+2022-11-30 21:21:14,222 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 21:22:20,303 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-11-30 21:25:40,541 INFO: VietSight [in /home/heroskin12/vietsight/app/__init__.py:43]
+2022-12-10 21:33:10,536 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 21:34:54,816 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 21:35:01,283 ERROR: Exception on /auth/landing [GET] [in /home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/heroskin12/vietsight/app/auth/routes.py", line 22, in landing
+    return render_template('main/index.html', title="Welcome")
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/templating.py", line 62, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: main/index.html
+2022-12-10 21:36:13,510 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-10 21:36:15,142 ERROR: Exception on / [GET] [in /home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/heroskin12/vietsight/app/main/routes.py", line 42, in landing
+    return render_template('main/index.html', title="Welcome")
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/templating.py", line 62, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/heroskin12/vietsight/venv/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: main/index.html

@@ -26,10 +26,10 @@
                 </div>
                 <div class="row shadow-sm pb-3 pt-5">
                     <div class="col-lg-6 d-flex align-items-end justify-content-center ps-5">
-                        {% if current_user.unique_profile_pic %}
-                            <div class="me-3" style="background: url('/static/images/profile/{{current_user.unique_profile_pic}}') no-repeat center center/cover; height: 200px; width:200px; border-radius: 50%; border: 5px solid white;"></div>
-                        {% elif current_user.avatar %}
-                            <div class="me-3" style="background: url('{{current_user.avatar}}') no-repeat center center/cover; height: 200px; width:200px; border-radius: 50%; border: 5px solid white;"></div>                        
+                        {% if user.unique_profile_pic %}
+                            <div class="me-3" style="background: url('/static/images/profile/{{user.unique_profile_pic}}') no-repeat center center/cover; height: 200px; width:200px; border-radius: 50%; border: 5px solid white;"></div>
+                        {% elif user.avatar %}
+                            <div class="me-3" style="background: url('{{user.avatar}}') no-repeat center center/cover; height: 200px; width:200px; border-radius: 50%; border: 5px solid white;"></div>                        
                         {% else %}
                         <div class="me-3" style="background: url('/static/images/mountain.jpg') no-repeat center center/cover; height: 200px; width:200px; border-radius: 50%; border: 5px solid white;"></div>     
                             <img src="/static/images/mountain.jpg" alt="" class="card-added-images rounded rounded-5 me-2">
@@ -44,22 +44,22 @@
                     </div>
                     <div class="col-lg-4 d-flex align-items-end justify-content-end pb-3">
                         <button class="btn btn-danger me-1">
-                            <a href="{{url_for('bucket', username=user.username)}}" class="text-light text-decoration-none">Bucket</a>
+                            <a href="{{url_for('main.bucket', username=user.username)}}" class="text-light text-decoration-none">Bucket</a>
                         </button>
                         {% if current_user == user %}
                         <button class="btn btn-danger me-1">
-                            <a href="{{url_for('settings')}}" class="text-light text-decoration-none">Edit Profile</a>
+                            <a href="{{url_for('main.settings')}}" class="text-light text-decoration-none">Edit Profile</a>
                         </button>
                         {% elif not current_user.is_following(user) %}
                             <p>
-                                <form action="{{url_for('follow', username=user.username) }}" method="post">
+                                <form action="{{url_for('main.follow', username=user.username) }}" method="post">
                                     {{form.hidden_tag()}}
                                     {{form.submit(value='Follow', class_='btn btn-danger text-light')}}
                                 </form>
                             </p>
                         {% else %}
                             <p>
-                                <form action="{{url_for('unfollow', username=user.username) }}" method="post">
+                                <form action="{{url_for('main.unfollow', username=user.username) }}" method="post">
                                     {{form.hidden_tag()}}
                                     {{form.submit(value='Unfollow', class_='btn btn-danger text-light')}}
                                 </form>
@@ -76,7 +76,7 @@
                 <h1 class="fw-light">Your Posts</h1>
                 <p class="lead text-muted">Browse through your posts and remind yourself of the places you have been.</p>
                 <p>
-                  <a href="{{url_for('bucket', username=user.username)}}" class="btn btn-danger btn-lg my-2">View {{user.firstName}}'s Bucket List</a>
+                  <a href="{{url_for('main.bucket', username=user.username)}}" class="btn btn-danger btn-lg my-2">View {{user.firstName}}'s Bucket List</a>
                 </p>
               </div>
             </div>
@@ -88,7 +88,7 @@
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
                     {% for post in posts %}
                     <div class="col">
-                        <a href="{{url_for('post', id=post.id)}}">
+                        <a href="{{url_for('main.post', id=post.id)}}">
                             <div class="card shadow-sm">
                                 <div class="{{post.id + 1}}" style="height: 300px; width: 100%; background: url('/static/images/posts/{{post.unique_image}}') no-repeat center center/cover">
                                 </div>                     

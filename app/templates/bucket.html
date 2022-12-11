@@ -29,13 +29,14 @@
                             <div class="col">
                                 <div class="card mb-5 bg-light p-4 rounded rounded-2">
                                     <div class="card-body p-0 mb-3">
-                                        <div class="d-flex justify-content-right">
-                                            <a href="{{url_for('remove_bucket', id=post.id)}}" class="ms-auto">
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </a>
+                                        <div class="d-flex justify-content-end">
+                                            <form action="{{url_for('main.remove_bucket', id=post.id)}}" method="post">
+                                                {{form.hidden_tag()}}
+                                                {{form.submit(class_='bg-light border-0', value='X')}}
+                                            </form>
                                         </div>
                                         <div class="d-flex my-3 align-items-center">
-                                            <a href="{{url_for('profile', username=post.author.username)}}" class="text-decoration-none">
+                                            <a href="{{url_for('main.profile', username=post.author.username)}}" class="text-decoration-none">
                                             {% if post.author.profile_pic %}
                                             <img src="/static/images/profile/{{post.author.unique_profile_pic}}" class="ms-2 me-2 card-added-images">
                                             {% elif post.author.avatar %}
@@ -44,9 +45,9 @@
                                             <img src="/static/images/halong3.jpg" alt="" class="me-2 card-added-images">
                                             {% endif %}
                                             </a>
-                                            <a href="{{url_for('profile', username=post.author.username)}}" class="text-decoration-none">
+                                            <a href="{{url_for('main.profile', username=post.author.username)}}" class="text-decoration-none">
                                                 <div class="d-flex flex-column ps-2">
-                                                    <a href="{{url_for('profile', username=post.author.username)}}" class="text-decoration-none">
+                                                    <a href="{{url_for('main.profile', username=post.author.username)}}" class="text-decoration-none">
                                                         <h6 class="card-title text-black">{{post.author.firstName}} {{post.author.lastName}}</h6>
                                                     </a>
                                                     <h6 class="card-subtitle mb-2 text-muted">{{moment(post.timestamp).format('LLL')}}</h6>
@@ -54,7 +55,7 @@
                                             
                                         </div>
                                     </div>
-                                    <a href="{{url_for('post', id=post.id)}}">
+                                    <a href="{{url_for('main.post', id=post.id)}}">
                                         <div class="{{post.id + 1}}" style="height: 300px; width: 100%; background: url('/static/images/posts/{{post.unique_image}}') no-repeat center center/cover">
                                         </div>
                                         <p class="btn btn-danger rounded rounded-0 rounded-bottom w-100">See Post</p>
