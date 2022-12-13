@@ -88,3 +88,4 @@ RuntimeError: A secret key is required to use CSRF.
 2022-12-10 23:46:07,317 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
 2022-12-10 23:47:13,092 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
 2022-12-11 11:26:35,233 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
+2022-12-13 16:30:30,601 INFO: Vietsight startup [in /home/heroskin12/vietsight/app/__init__.py:69]
