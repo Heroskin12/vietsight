@@ -168,22 +168,24 @@ def upload():
 @bp.route('/delete_post/<id>', methods=["POST"])
 @login_required
 def delete_post(id):
-    form = EmptyForm()
+    #form = EmptyForm()
 
-    if form.validate_on_submit():
-        post = Post.query.filter_by(id=id).first()
+    #if form.validate_on_submit():
+        #post = Post.query.filter_by(id=id).first()
+        #db.session.delete(post)
+        #db.session.commit()
+        #flash('Post Deleted.')
+        #return redirect(url_for('main.home'))
 
-        if post.unique_image:
-            os.remove(os.path.join(current_app.config['UPLOAD_PATH'], post.unique_image))
-        else:
-            os.remove(os.path.join(current_app.config['UPLOAD_PATH'], post.image))
+    #flash('Error. Please try again.')
+    #return redirect(url_for('main.home'))
+
+    posts = Post.query.all()
+    for post in posts:
         db.session.delete(post)
         db.session.commit()
-        flash('Post Deleted.')
         return redirect(url_for('main.home'))
 
-    flash('Error. Please try again.')
-    return redirect(url_for('main.home'))
 
 
 @bp.route('/settings', methods=["GET", "POST"])
@@ -499,3 +501,6 @@ def translate_text():
     return jsonify({'text': translate(request.form['text'],
                                       request.form['source_language'],
                                       request.form['dest_language'])})
+
+
+
