@@ -90,8 +90,8 @@
                     <div class="col">
                         <a href="{{url_for('main.post', id=post.id)}}">
                             <div class="card shadow-sm">
-                                <div class="{{post.id + 1}}" style="height: 300px; width: 100%; background: url('/static/images/posts/{{post.unique_image}}') no-repeat center center/cover">
-                                </div>                     
+                                <div class="{{post.id + 1}}" style="height: 300px; width: 100%; background: url('https://flask-vietsight.s3.amazonaws.com/{{post.unique_image}}') no-repeat center center/cover">
+                                </div>                  
                             </div>
                         </a>
                     </div>

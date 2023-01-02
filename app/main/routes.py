@@ -13,6 +13,7 @@ from langdetect import detect, LangDetectException
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from app.main import bp
+import boto3
 
 # Update the 'last seen' time for user each time they make a request.
 @bp.before_request
@@ -30,6 +31,8 @@ def validate_image(stream):
     if not format:
         return None
     return '.' + (format if format != 'jpeg' else 'jpg') # Accounts for jpeg exception where jpg extension used.
+
+
 
 # Routes
 @bp.route('/', methods=["GET"])
@@ -91,6 +94,17 @@ def profile(username):
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
         page=page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
 
+    images = []
+
+    #for post in posts:
+        #print(post.unique_image)
+        #client = boto3.client('s3')
+        #response = client.get_object(
+            #Bucket = 'flask-vietsight',
+            #Key = post.unique_image
+        #)
+        #print(response)
+
     # Add a link for next if there are more posts to show.
     next_url = url_for('main.profile', username=user.username, page=posts.next_num) \
         if posts.has_next else None
@@ -110,6 +124,8 @@ def profile(username):
 def upload():
     form = UploadForm()    
     if form.validate_on_submit():
+        s3 = boto3.resource('s3')
+        
         uploaded_file = request.files['image']
         filename = secure_filename(uploaded_file.filename)
 
@@ -121,6 +137,8 @@ def upload():
                 return redirect(url_for('main.upload'))
             unique = current_user.make_unique()
             uploaded_file.save(os.path.join(current_app.config['UPLOAD_PATH'], unique))
+            data = open(os.path.join(current_app.config['UPLOAD_PATH'], unique), 'rb')
+            s3.Bucket('flask-vietsight').put_object(Key=unique, Body=data)
 
             # Try detect language of post.
             try:
