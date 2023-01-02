@@ -14,6 +14,7 @@ from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from app.main import bp
 import boto3
+from io import BytesIO
 
 # Update the 'last seen' time for user each time they make a request.
 @bp.before_request
@@ -94,17 +95,6 @@ def profile(username):
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
         page=page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
 
-    images = []
-
-    #for post in posts:
-        #print(post.unique_image)
-        #client = boto3.client('s3')
-        #response = client.get_object(
-            #Bucket = 'flask-vietsight',
-            #Key = post.unique_image
-        #)
-        #print(response)
-
     # Add a link for next if there are more posts to show.
     next_url = url_for('main.profile', username=user.username, page=posts.next_num) \
         if posts.has_next else None
@@ -139,6 +129,8 @@ def upload():
             uploaded_file.save(os.path.join(current_app.config['UPLOAD_PATH'], unique))
             data = open(os.path.join(current_app.config['UPLOAD_PATH'], unique), 'rb')
             s3.Bucket('flask-vietsight').put_object(Key=unique, Body=data)
+            os.remove(os.path.join(current_app.config['UPLOAD_PATH'], unique))
+            
 
             # Try detect language of post.
             try:
@@ -168,23 +160,20 @@ def upload():
 @bp.route('/delete_post/<id>', methods=["POST"])
 @login_required
 def delete_post(id):
-    #form = EmptyForm()
+    form = EmptyForm()
 
-    #if form.validate_on_submit():
-        #post = Post.query.filter_by(id=id).first()
-        #db.session.delete(post)
-        #db.session.commit()
-        #flash('Post Deleted.')
-        #return redirect(url_for('main.home'))
-
-    #flash('Error. Please try again.')
-    #return redirect(url_for('main.home'))
-
-    posts = Post.query.all()
-    for post in posts:
+    if form.validate_on_submit():
+        post = Post.query.filter_by(id=id).first()
+        s3_client = boto3.client('s3')
+        s3_client.delete_object(Bucket='flask-vietsight', Key=post.unique_image)
         db.session.delete(post)
         db.session.commit()
+        flash('Post Deleted.')
         return redirect(url_for('main.home'))
+
+    flash('Error. Please try again.')
+    return redirect(url_for('main.home'))
+
 
 
 
@@ -196,6 +185,7 @@ def settings():
     profileForm = ProfileForm()
     coverForm = CoverForm()
     passwordForm = PasswordForm()
+    s3 = boto3.resource('s3')
 
     if form.validate_on_submit():
         newCaption = form.new_caption.data
@@ -214,10 +204,15 @@ def settings():
                 flash("Image type not valid. Must be jpg, gif or png. Please try again.")
                 return redirect(url_for('main.settings'))
             if current_user.unique_profile_pic != None:
-                os.remove(os.path.join(current_app.config['PROFILE_PATH'], current_user.unique_profile_pic))
+                #os.remove(os.path.join(current_app.config['PROFILE_PATH'], current_user.unique_profile_pic))
+                s3_client = boto3.client('s3')
+                s3_client.delete_object(Bucket='flask-vietsight', Key=current_user.unique_profile_pic)
             current_user.profile_pic = filename
             current_user.unique_profile_pic = current_user.make_unique()
             uploaded_file.save(os.path.join(current_app.config['PROFILE_PATH'], current_user.unique_profile_pic))
+            data = open(os.path.join(current_app.config['PROFILE_PATH'], current_user.unique_profile_pic), 'rb')
+            s3.Bucket('flask-vietsight').put_object(Key=current_user.unique_profile_pic, Body=data)
+            os.remove(os.path.join(current_app.config['PROFILE_PATH'], current_user.unique_profile_pic))
             
             db.session.commit()
             return redirect(url_for('main.profile', username = current_user.username))
@@ -233,10 +228,16 @@ def settings():
                 flash("Image type not valid. Must be jpg, gif or png. Please try again.")
                 return redirect(url_for('main.settings'))
             if current_user.unique_cover_pic:
-                os.remove(os.path.join(current_app.config['COVER_PATH'], current_user.unique_cover_pic))
+                #os.remove(os.path.join(current_app.config['COVER_PATH'], current_user.unique_cover_pic))
+                s3_client = boto3.client('s3')
+                s3_client.delete_object(Bucket='flask-vietsight', Key=current_user.unique_cover_pic)
+
             current_user.cover_pic = filename
             current_user.unique_cover_pic = current_user.make_unique()
             uploaded_file.save(os.path.join(current_app.config['COVER_PATH'], current_user.unique_cover_pic))
+            data = open(os.path.join(current_app.config['COVER_PATH'], current_user.unique_cover_pic), 'rb')
+            s3.Bucket('flask-vietsight').put_object(Key=current_user.unique_cover_pic, Body=data)
+            os.remove(os.path.join(current_app.config['COVER_PATH'], current_user.unique_profile_pic))
             db.session.commit()
             return redirect(url_for('main.profile', username = current_user.username))
 
