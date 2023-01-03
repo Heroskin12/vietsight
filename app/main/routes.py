@@ -33,6 +33,8 @@ def validate_image(stream):
         return None
     return '.' + (format if format != 'jpeg' else 'jpg') # Accounts for jpeg exception where jpg extension used.
 
+# Define S3 Client
+s3_client = boto3.client('s3')
 
 
 # Routes
@@ -114,7 +116,6 @@ def profile(username):
 def upload():
     form = UploadForm()    
     if form.validate_on_submit():
-        s3 = boto3.resource('s3')
         
         uploaded_file = request.files['image']
         filename = secure_filename(uploaded_file.filename)
@@ -126,10 +127,8 @@ def upload():
                 flash("Image type not valid. Must be jpg, gif or png. Please try again.")
                 return redirect(url_for('main.upload'))
             unique = current_user.make_unique()
-            uploaded_file.save(os.path.join(current_app.config['UPLOAD_PATH'], unique))
-            data = open(os.path.join(current_app.config['UPLOAD_PATH'], unique), 'rb')
-            s3.Bucket('flask-vietsight').put_object(Key=unique, Body=data)
-            os.remove(os.path.join(current_app.config['UPLOAD_PATH'], unique))
+            uploaded_file.save(filename)
+            s3_client.upload_file(Bucket='flask-vietsight', Filename=filename, Key=unique)
             
 
             # Try detect language of post.
@@ -185,7 +184,6 @@ def settings():
     profileForm = ProfileForm()
     coverForm = CoverForm()
     passwordForm = PasswordForm()
-    s3 = boto3.resource('s3')
 
     if form.validate_on_submit():
         newCaption = form.new_caption.data
@@ -204,15 +202,15 @@ def settings():
                 flash("Image type not valid. Must be jpg, gif or png. Please try again.")
                 return redirect(url_for('main.settings'))
             if current_user.unique_profile_pic != None:
-                #os.remove(os.path.join(current_app.config['PROFILE_PATH'], current_user.unique_profile_pic))
-                s3_client = boto3.client('s3')
+                # Delete old profile pic in the bucket.
                 s3_client.delete_object(Bucket='flask-vietsight', Key=current_user.unique_profile_pic)
+
+            # Set unique name for and upload new profile pic to bucket.    
             current_user.profile_pic = filename
             current_user.unique_profile_pic = current_user.make_unique()
-            uploaded_file.save(os.path.join(current_app.config['PROFILE_PATH'], current_user.unique_profile_pic))
-            data = open(os.path.join(current_app.config['PROFILE_PATH'], current_user.unique_profile_pic), 'rb')
-            s3.Bucket('flask-vietsight').put_object(Key=current_user.unique_profile_pic, Body=data)
-            os.remove(os.path.join(current_app.config['PROFILE_PATH'], current_user.unique_profile_pic))
+            uploaded_file.save(filename)
+            s3_client.upload_file(Bucket='flask-vietsight', Filename=filename, Key=current_user.unique_profile_pic)
+            
             
             db.session.commit()
             return redirect(url_for('main.profile', username = current_user.username))
@@ -228,16 +226,12 @@ def settings():
                 flash("Image type not valid. Must be jpg, gif or png. Please try again.")
                 return redirect(url_for('main.settings'))
             if current_user.unique_cover_pic:
-                #os.remove(os.path.join(current_app.config['COVER_PATH'], current_user.unique_cover_pic))
-                s3_client = boto3.client('s3')
                 s3_client.delete_object(Bucket='flask-vietsight', Key=current_user.unique_cover_pic)
 
             current_user.cover_pic = filename
             current_user.unique_cover_pic = current_user.make_unique()
-            uploaded_file.save(os.path.join(current_app.config['COVER_PATH'], current_user.unique_cover_pic))
-            data = open(os.path.join(current_app.config['COVER_PATH'], current_user.unique_cover_pic), 'rb')
-            s3.Bucket('flask-vietsight').put_object(Key=current_user.unique_cover_pic, Body=data)
-            os.remove(os.path.join(current_app.config['COVER_PATH'], current_user.unique_profile_pic))
+            uploaded_file.save(filename)
+            s3_client.upload_file(Bucket='flask-vietsight', Filename=filename, Key=current_user.unique_cover_pic)
             db.session.commit()
             return redirect(url_for('main.profile', username = current_user.username))
 
